@@ -90,7 +90,7 @@ HTML_ADMIN = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Vault</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'%3E%3C/rect%3E%3Cline x1='7' y1='2' x2='7' y2='22'%3E%3C/line%3E%3Cline x1='17' y1='2' x2='17' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='2' y1='7' x2='7' y2='7'%3E%3C/line%3E%3Cline x1='2' y1='17' x2='7' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='17' x2='22' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='7' x2='22' y2='7'%3E%3C/line%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'%3E%3C/rect%3E%3Cline x1='7' y1='2' x2='7' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='2' y1='7' x2='7' y2='7'%3E%3C/line%3E%3Cline x1='2' y1='17' x2='7' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='17' x2='22' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='7' x2='22' y2='7'%3E%3C/line%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }
@@ -130,11 +130,50 @@ HTML_ADMIN = """
         input:checked + .slider:before { transform: translateX(20px); }
         .toggle-label { font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 
+        /* ==========================================
+           REGLAS RESPONSIVAS PARA TELÉFONOS ANDROID
+           Esto se ignora en PC y solo aplica en móviles
+           ========================================== */
+        @media (max-width: 768px) {
+            body { padding: 1rem 0.5rem; }
+            .container { padding: 1rem; }
+            .nav-admin { flex-direction: row; justify-content: space-between; }
+            
+            /* Ajuste de pestañas */
+            .tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 10px; }
+            .tab-btn { white-space: nowrap; padding: 0.6rem 1rem; }
+            
+            /* Ajuste de controles globales */
+            .config-card { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1rem; }
+            .config-card > div[style*="display: flex"] { flex-wrap: wrap; width: 100%; gap: 1rem !important; }
+            
+            /* TRANSFORMACIÓN DE TABLA A TARJETAS */
+            table, thead, tbody, th, td, tr { display: block; width: 100%; box-sizing: border-box; }
+            tr:first-child { display: none; } /* Ocultar el encabezado de la tabla */
+            tr { background: #fff; margin-bottom: 1.5rem; border: 1px solid #cbd5e1; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+            
+            /* Formateo de cada celda para que parezca una sección de la tarjeta */
+            td { border: none; border-bottom: 1px solid #f1f5f9; padding: 0.8rem 0; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; }
+            td:last-child { border-bottom: none; padding-bottom: 0; }
+            
+            /* Etiquetas simuladas antes del contenido */
+            td::before { content: attr(data-label); font-weight: 600; color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+            
+            /* Ajustes específicos de contenido */
+            td img { width: 100%; height: auto; aspect-ratio: 16/9; max-width: none; }
+            td[style*="max-width"] { max-width: 100% !important; font-size: 1.1rem !important; }
+            .form-row { width: 100%; flex-wrap: wrap; gap: 8px; }
+            
+            /* Ajuste de Reportes en Móvil */
+            .report-header { flex-direction: column !important; align-items: flex-start !important; }
+            .report-header img { width: 100% !important; height: auto !important; max-width: none; margin-bottom: 1rem; }
+            .report-video-info { width: 100%; }
+        }
     </style>
 </head>
 <body>
     <div class="nav-admin">
-        <a href="/" class="btn-logout" style="margin-right: auto; background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">Volver al Catálogo</a>
+        <a href="/" class="btn-logout" style="margin-right: auto; background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">Volver</a>
         <a href="/logout" class="btn-logout">Cerrar Sesión</a>
     </div>
     <div class="container">
@@ -184,21 +223,23 @@ HTML_ADMIN = """
                 </tr>
                 {% for video in videos %}
                 <tr>
-                    <td><img src="{{ video.Portada_Base64 }}"></td>
-                    <td style="max-width: 200px; word-wrap: break-word; font-size: 0.95rem; font-weight: 500;">{{ video.Titulo }}</td>
-                    <td>
+                    <td data-label="Miniatura"><img src="{{ video.Portada_Base64 }}"></td>
+                    <td data-label="Título del Archivo" style="max-width: 200px; word-wrap: break-word; font-size: 0.95rem; font-weight: 500;">{{ video.Titulo }}</td>
+                    <td data-label="Analíticas en Vivo">
                         <div style="font-size: 0.9rem; color: #0f172a; margin-bottom: 4px;">👁️ {{ video.Vistas }} vistas</div>
                         <div style="font-size: 0.9rem; color: #2563eb;">🔴 {{ en_vivo.get(video.ID_Video|string, {})|length }} en vivo</div>
                     </td>
-                    <td>
-                        <label class="toggle-label">
-                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vistas')" {% if video.Mostrar_Vistas %}checked{% endif %}><span class="slider"></span></div> Vistas
-                        </label>
-                        <label class="toggle-label">
-                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vivo')" {% if video.Mostrar_Vivo %}checked{% endif %}><span class="slider"></span></div> En Vivo
-                        </label>
+                    <td data-label="Mostrar al Público">
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <label class="toggle-label">
+                                <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vistas')" {% if video.Mostrar_Vistas %}checked{% endif %}><span class="slider"></span></div> Vistas
+                            </label>
+                            <label class="toggle-label">
+                                <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vivo')" {% if video.Mostrar_Vivo %}checked{% endif %}><span class="slider"></span></div> En Vivo
+                            </label>
+                        </div>
                     </td>
-                    <td>
+                    <td data-label="Actualizar Portada">
                         <form action="/admin/update" method="POST" class="form-row">
                             <input type="hidden" name="id" value="{{ video.ID_Video }}">
                             <input type="hidden" name="url" value="{{ video.Enlace_Mediafire }}">
