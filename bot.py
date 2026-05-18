@@ -51,7 +51,7 @@ HTML_LOGIN = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Restringido | Vault</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'%3E%3C/rect%3E%3Cline x1='7' y1='2' x2='7' y2='22'%3E%3C/line%3E%3Cline x1='17' y1='2' x2='17' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='2' y1='7' x2='7' y2='7'%3E%3C/line%3E%3Cline x1='2' y1='17' x2='7' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='17' x2='22' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='7' x2='22' y2='7'%3E%3C/line%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { background: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #0f172a; }
@@ -90,7 +90,7 @@ HTML_ADMIN = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Vault</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'%3E%3C/rect%3E%3Cline x1='7' y1='2' x2='7' y2='22'%3E%3C/line%3E%3Cline x1='17' y1='2' x2='17' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='2' y1='7' x2='7' y2='7'%3E%3C/line%3E%3Cline x1='2' y1='17' x2='7' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='17' x2='22' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='7' x2='22' y2='7'%3E%3C/line%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }
@@ -131,8 +131,7 @@ HTML_ADMIN = """
         .toggle-label { font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 
         .report-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .report-header { display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
-        .report-video-info { flex-grow: 1; }
+        .report-header { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
         .report-badge { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block;}
         .report-item { background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }
     </style>
@@ -222,43 +221,24 @@ HTML_ADMIN = """
             {% for v_id, reps in reportes.items() %}
                 {% if reps|length > 0 %}
                     {% set has_reports = true %}
-                    
-                    {# MOTOR DE PREVISUALIZACIÓN DE COMPATIBILIDAD DINÁMICA #}
-                    {% set current_video = None %}
-                    {% for v in videos %}
-                        {% if v.ID_Video|string == v_id|string %}
-                            {% set current_video = v %}
-                        {% endif %}
-                    {% endfor %}
-
                     <div class="report-card">
                         <div class="report-header">
-                            {% if current_video %}
-                                <img src="{{ current_video.Portada_Base64 }}" style="width: 120px; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
-                                <div class="report-video-info">
-                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">{{ current_video.Titulo }}</h3>
-                                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">ID Video: {{ v_id }} • {{ reps|length }} reporte(s) detectado(s)</div>
-                                </div>
-                            {% else %}
-                                <div class="report-video-info">
-                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">Archivo de Video Remoto (ID: {{ v_id }})</h3>
-                                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Este ID acumuló {{ reps|length }} reporte(s).</div>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div style="margin-top: 1rem;">
-                            {% for r in reps %}
-                            <div class="report-item">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <span class="report-badge">{{ r.motivo }}</span>
-                                    <span style="font-size: 0.8rem; color: #64748b;">{{ r.fecha }}</span>
-                                </div>
-                                {% if r.nombre %}<div><strong>Nombre:</strong> {{ r.nombre }}</div>{% endif %}
-                                {% if r.correo %}<div><strong>Correo:</strong> {{ r.correo }}</div>{% endif %}
-                                <div style="margin-top: 8px; color: #334155;"><strong>Detalle:</strong> {{ r.detalle }}</div>
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.1rem;">ID Video: {{ v_id }}</h3>
+                                <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Este video ha recibido {{ reps|length }} reporte(s).</div>
                             </div>
-                            {% endfor %}
                         </div>
+                        {% for r in reps %}
+                        <div class="report-item">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span class="report-badge">{{ r.motivo }}</span>
+                                <span style="font-size: 0.8rem; color: #64748b;">{{ r.fecha }}</span>
+                            </div>
+                            {% if r.nombre %}<div><strong>Nombre:</strong> {{ r.nombre }}</div>{% endif %}
+                            {% if r.correo %}<div><strong>Correo:</strong> {{ r.correo }}</div>{% endif %}
+                            <div style="margin-top: 8px; color: #334155;"><strong>Detalle:</strong> {{ r.detalle }}</div>
+                        </div>
+                        {% endfor %}
                     </div>
                 {% endif %}
             {% endfor %}
@@ -293,7 +273,7 @@ HTML_GALLERY = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Vault</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'%3E%3C/rect%3E%3Cline x1='7' y1='2' x2='7' y2='22'%3E%3C/line%3E%3Cline x1='17' y1='2' x2='17' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='2' y1='7' x2='7' y2='7'%3E%3C/line%3E%3Cline x1='2' y1='17' x2='7' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='17' x2='22' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='7' x2='22' y2='7'%3E%3C/line%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; }
@@ -373,7 +353,7 @@ HTML_PLAYER = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reproduciendo: {{ video.Titulo }}</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='2.18' ry='2.18'%3E%3C/rect%3E%3Cline x1='7' y1='2' x2='7' y2='22'%3E%3C/line%3E%3Cline x1='17' y1='2' x2='17' y2='22'%3E%3C/line%3E%3Cline x1='2' y1='12' x2='22' y2='12'%3E%3C/line%3E%3Cline x1='2' y1='7' x2='7' y2='7'%3E%3C/line%3E%3Cline x1='2' y1='17' x2='7' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='17' x2='22' y2='17'%3E%3C/line%3E%3Cline x1='17' y1='7' x2='22' y2='7'%3E%3C/line%3E%3C/svg%3E">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; }
@@ -475,26 +455,6 @@ HTML_PLAYER = """
         }
 
         function enviarReporte() {
-            const val = document.getElementById('repMotivo').value;
-            const isSerious = val !== 'El video no carga / Enlace roto';
-            
-            if (isSerious) {
-                const nombreVal = document.getElementById('repNombre').value.trim();
-                const correoVal = document.getElementById('repCorreo').value.trim();
-                
-                if (!nombreVal) {
-                    alert('Por favor, ingresa tu nombre completo.');
-                    return;
-                }
-                
-                // Expresión regular estándar para comprobar correos estructurados válidos
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(correoVal)) {
-                    alert('Por favor, introduce una dirección de correo electrónico válida (usuario@dominio.com).');
-                    return;
-                }
-            }
-
             const data = {
                 id: v_id,
                 motivo: document.getElementById('repMotivo').value,
