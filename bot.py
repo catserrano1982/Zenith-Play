@@ -221,20 +221,20 @@ HTML_ADMIN = """
                 {% if reps|length > 0 %}
                     {% set has_reports = true %}
                     
-                    {% set current_video = None %}
+                    {% set ns = namespace(current_video=None) %}
                     {% for v in videos %}
                         {% if v.ID_Video|string == v_id|string %}
-                            {% set current_video = v %}
+                            {% set ns.current_video = v %}
                         {% endif %}
                     {% endfor %}
 
                     <div class="report-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
                         <div class="report-header" style="display: flex; gap: 1.5rem; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
                             
-                            {% if current_video %}
-                                <img src="{{ current_video.Portada_Base64 }}" style="width: 180px; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1; flex-shrink: 0;">
+                            {% if ns.current_video %}
+                                <img src="{{ ns.current_video.Portada_Base64 }}" style="width: 180px; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1; flex-shrink: 0;">
                                 <div class="report-video-info" style="flex-grow: 1;">
-                                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; color: #0f172a; font-weight: 600; line-height: 1.3;">{{ current_video.Titulo }}</h3>
+                                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; color: #0f172a; font-weight: 600; line-height: 1.3;">{{ ns.current_video.Titulo }}</h3>
                                     <div style="display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: #475569; margin-bottom: 0.5rem;">
                                         <span>🆔 ID: <strong>{{ v_id }}</strong></span>
                                     </div>
@@ -247,7 +247,7 @@ HTML_ADMIN = """
                                 <div class="report-video-info" style="flex-grow: 1;">
                                     <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; color: #0f172a; font-weight: 600;">Video No Encontrado</h3>
                                     <div style="font-size: 0.9rem; color: #64748b;">ID de la Bóveda: <strong>{{ v_id }}</strong></div>
-                                    <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Este video ha recibido reportes, pero ya no se encuentra en la base de datos principal.</div>
+                                    <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Este video tiene reportes, pero ya no existe en la pestaña "Videos".</div>
                                 </div>
                             {% endif %}
 
