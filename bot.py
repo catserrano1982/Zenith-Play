@@ -417,7 +417,8 @@ HTML_PLAYER = """
         .form-group label { display: block; font-size: 0.85rem; font-weight: 500; color: #475569; margin-bottom: 0.4rem; }
         select, input, textarea { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
         textarea { resize: vertical; min-height: 80px; }
-        .btn-submit { width: 100%; background: #2563eb; color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
+        .btn-submit { width: 100%; background: #2563eb; color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s; }
+        .btn-submit:hover { background: #1d4ed8; }
         .btn-cancel { width: 100%; background: transparent; color: #64748b; border: none; padding: 0.6rem; margin-top: 0.5rem; cursor: pointer; font-size: 0.85rem;}
         
         .live-pulse { width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; display: inline-block; }
@@ -474,6 +475,14 @@ HTML_PLAYER = """
             <button class="btn-submit" onclick="enviarReporte()">Enviar Reporte</button>
             <button class="btn-cancel" onclick="document.getElementById('modalOverlay').style.display='none'">Cancelar</button>
         </div>
+
+        <div class="modal-card" id="modalError" style="display: none; text-align: center;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" style="margin-bottom: 1rem;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <h3 style="border: none; color: #dc2626;">Correo Inválido</h3>
+            <p style="font-size: 0.9rem; color: #475569; margin-bottom: 1.5rem;">La dirección de correo introducida no tiene un formato válido (ejemplo@empresa.com). Por favor, corrígela para procesar tu solicitud.</p>
+            <button class="btn-submit" style="background: #dc2626;" onclick="volverAlFormulario()" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">Volver al Formulario</button>
+        </div>
+
         <div class="modal-card" id="modalSuccess" style="display: none; text-align: center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             <h3 style="border: none; color: #16a34a;">Reporte Recibido</h3>
@@ -492,6 +501,11 @@ HTML_PLAYER = """
             document.getElementById('lblDetalle').innerText = isSerious ? 'Detalles de la infracción' : 'Detalles (Opcional)';
         }
 
+        function volverAlFormulario() {
+            document.getElementById('modalError').style.display = 'none';
+            document.getElementById('modalForm').style.display = 'block';
+        }
+
         function enviarReporte() {
             const val = document.getElementById('repMotivo').value;
             const isSerious = val !== 'El video no carga / Enlace roto';
@@ -501,7 +515,9 @@ HTML_PLAYER = """
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 
                 if (!emailRegex.test(correoVal)) {
-                    alert('Por favor, introduce una dirección de correo electrónico válida (ejemplo@dominio.com).');
+                    // Oculta el formulario y muestra la tarjeta de error diseñada
+                    document.getElementById('modalForm').style.display = 'none';
+                    document.getElementById('modalError').style.display = 'block';
                     return;
                 }
             }
