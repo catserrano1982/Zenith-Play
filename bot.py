@@ -30,6 +30,9 @@ app.secret_key = os.environ.get('SECRET_KEY', 'zenith_clave_secreta_segura')
 # Memoria RAM exclusiva para usuarios "En Vivo"
 SYSTEM_STATS = {'en_vivo': {}}
 
+# Ícono Global Favicon en formato SVG (Evita el mundo gris por defecto)
+FAVICON_LINK = '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">'
+
 # ==========================================
 # PROTECCIÓN DEL PANEL ADMINISTRADOR
 # ==========================================
@@ -44,25 +47,26 @@ def requires_auth(f):
 # ==========================================
 # INTERFAZ WEB (DISEÑO BLANCO Y PROFESIONAL)
 # ==========================================
-HTML_LOGIN = """
+HTML_LOGIN = f"""
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Restringido | Vault</title>
+    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #0f172a; }
-        .login-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; width: 100%; max-width: 380px; text-align: center; }
-        .logo-icon { width: 48px; height: 48px; background: #eff6ff; color: #2563eb; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin: 0 auto 1.5rem auto; border: 1px solid #bfdbfe; }
-        h2 { margin-bottom: 0.5rem; font-weight: 600; font-size: 1.25rem; }
-        p { color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; }
-        input[type="password"] { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 1rem; outline: none; transition: border-color 0.2s; }
-        input[type="password"]:focus { border-color: #2563eb; }
-        button { width: 100%; padding: 0.8rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 500; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-        button:hover { background: #1d4ed8; }
-        .error { color: #dc2626; font-size: 0.85rem; margin-top: 1rem; background: #fef2f2; padding: 0.5rem; border-radius: 6px; border: 1px solid #fca5a5; display: {% if error %}block{% else %}none{% endif %}; }
+        body {{ background: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #0f172a; }}
+        .login-card {{ background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; width: 100%; max-width: 380px; text-align: center; }}
+        .logo-icon {{ width: 48px; height: 48px; background: #eff6ff; color: #2563eb; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin: 0 auto 1.5rem auto; border: 1px solid #bfdbfe; }}
+        h2 {{ margin-bottom: 0.5rem; font-weight: 600; font-size: 1.25rem; }}
+        p {{ color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; }}
+        input[type="password"] {{ width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 1rem; outline: none; transition: border-color 0.2s; }}
+        input[type="password"]:focus {{ border-color: #2563eb; }}
+        button {{ width: 100%; padding: 0.8rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 500; font-size: 1rem; cursor: pointer; transition: background 0.2s; }}
+        button:hover {{ background: #1d4ed8; }}
+        .error {{ color: #dc2626; font-size: 0.85rem; margin-top: 1rem; background: #fef2f2; padding: 0.5rem; border-radius: 6px; border: 1px solid #fca5a5; display: {{% if error %}}block{{% else %}}none{{% endif %}}; }}
     </style>
 </head>
 <body>
@@ -82,56 +86,58 @@ HTML_LOGIN = """
 </html>
 """
 
-HTML_ADMIN = """
+HTML_ADMIN = f"""
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Vault</title>
+    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }
-        .nav-admin { max-width: 1000px; margin: 0 auto 1rem auto; display: flex; justify-content: flex-end; }
-        .btn-logout { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
-        .btn-logout:hover { background: #e2e8f0; }
+        body {{ font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }}
+        .nav-admin {{ max-width: 1000px; margin: 0 auto 1rem auto; display: flex; justify-content: flex-end; }}
+        .btn-logout {{ background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; }}
+        .btn-logout:hover {{ background: #e2e8f0; }}
         
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        h1 { margin-bottom: 1.5rem; font-size: 1.5rem; color: #0f172a; }
+        .container {{ max-width: 1000px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }}
+        h1 {{ margin-bottom: 1.5rem; font-size: 1.5rem; color: #0f172a; }}
         
-        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }
-        .tab-btn { background: none; border: none; font-size: 1rem; font-weight: 500; color: #64748b; cursor: pointer; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s; }
-        .tab-btn.active { color: #2563eb; background: #eff6ff; }
-        .tab-btn:hover:not(.active) { color: #0f172a; background: #f1f5f9; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tabs {{ display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }}
+        .tab-btn {{ background: none; border: none; font-size: 1rem; font-weight: 500; color: #64748b; cursor: pointer; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s; }}
+        .tab-btn.active {{ color: #2563eb; background: #eff6ff; }}
+        .tab-btn:hover:not(.active) {{ color: #0f172a; background: #f1f5f9; }}
+        .tab-content {{ display: none; }}
+        .tab-content.active {{ display: block; }}
 
-        .config-card { background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .config-title { font-weight: 600; color: #1e3a8a; margin-bottom: 0.25rem; font-size: 1rem; }
-        .config-desc { color: #3b82f6; font-size: 0.85rem; margin: 0; }
+        .config-card {{ background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }}
+        .config-title {{ font-weight: 600; color: #1e3a8a; margin-bottom: 0.25rem; font-size: 1rem; }}
+        .config-desc {{ color: #3b82f6; font-size: 0.85rem; margin: 0; }}
         
-        h2 { font-size: 1.2rem; color: #0f172a; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
-        th { font-weight: 600; color: #64748b; font-size: 0.9rem; }
-        img { border-radius: 6px; width: 120px; aspect-ratio: 16/9; object-fit: cover; border: 1px solid #e2e8f0; }
-        .form-row { display: flex; gap: 8px; align-items: center; }
-        input[type="number"] { width: 60px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-family: inherit; }
-        button { background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; font-family: inherit; transition: background 0.2s; }
-        button:hover { background: #1d4ed8; }
+        h2 {{ font-size: 1.2rem; color: #0f172a; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; }}
+        table {{ width: 100%; border-collapse: collapse; }}
+        th, td {{ padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }}
+        th {{ font-weight: 600; color: #64748b; font-size: 0.9rem; }}
+        img {{ border-radius: 6px; width: 120px; aspect-ratio: 16/9; object-fit: cover; border: 1px solid #e2e8f0; }}
+        .form-row {{ display: flex; gap: 8px; align-items: center; }}
+        input[type="number"] {{ width: 60px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-family: inherit; }}
+        button {{ background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; font-family: inherit; transition: background 0.2s; }}
+        button:hover {{ background: #1d4ed8; }}
         
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px; }
-        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #2563eb; }
-        input:checked + .slider:before { transform: translateX(20px); }
-        .toggle-label { font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .switch {{ position: relative; display: inline-block; width: 44px; height: 24px; }}
+        .switch input {{ opacity: 0; width: 0; height: 0; }}
+        .slider {{ position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px; }}
+        .slider:before {{ position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }}
+        input:checked + .slider {{ background-color: #2563eb; }}
+        input:checked + .slider:before {{ transform: translateX(20px); }}
+        .toggle-label {{ font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }}
 
-        .report-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .report-header { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
-        .report-badge { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block;}
-        .report-item { background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .report-card {{ background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }}
+        .report-header {{ display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }}
+        .report-video-info {{ flex-grow: 1; }}
+        .report-badge {{ background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block; }}
+        .report-item {{ background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }}
     </style>
 </head>
 <body>
@@ -155,11 +161,11 @@ HTML_ADMIN = """
                 </div>
                 <div style="display: flex; gap: 1.5rem;">
                     <label class="toggle-label">
-                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vistas')" {% if config.global_vistas %}checked{% endif %}><span class="slider"></span></div>
+                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vistas')" {{% if config.global_vistas %}}checked{{% endif %}}><span class="slider"></span></div>
                         Vistas Totales
                     </label>
                     <label class="toggle-label">
-                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vivo')" {% if config.global_vivo %}checked{% endif %}><span class="slider"></span></div>
+                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vivo')" {{% if config.global_vivo %}}checked{{% endif %}}><span class="slider"></span></div>
                         En Vivo
                     </label>
                 </div>
@@ -194,10 +200,10 @@ HTML_ADMIN = """
                     </td>
                     <td>
                         <label class="toggle-label">
-                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vistas')" {% if video.Mostrar_Vistas %}checked{% endif %}><span class="slider"></span></div> Vistas
+                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vistas')" {{% if video.Mostrar_Vistas %}}checked{{% endif %}}><span class="slider"></span></div> Vistas
                         </label>
                         <label class="toggle-label">
-                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vivo')" {% if video.Mostrar_Vivo %}checked{% endif %}><span class="slider"></span></div> En Vivo
+                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vivo')" {{% if video.Mostrar_Vivo %}}checked{{% endif %}}><span class="slider"></span></div> En Vivo
                         </label>
                     </td>
                     <td>
@@ -214,17 +220,34 @@ HTML_ADMIN = """
         </div>
 
         <div id="reportes" class="tab-content">
-            <h2>Bandeja de Reportes</h2>
+            <h2>Bandeja de Reportes Maliciosos y Enlaces Caídos</h2>
             {% set has_reports = false %}
             {% for v_id, reps in reportes.items() %}
                 {% if reps|length > 0 %}
                     {% set has_reports = true %}
+                    
+                    {# Buscar el video correspondiente para extraer su miniatura y título #}
+                    {% set current_video = None %}
+                    {% for v in videos %}
+                        {% if v.ID_Video|string == v_id|string %}
+                            {% set current_video = v %}
+                        {% endif %}
+                    {% endfor %}
+
                     <div class="report-card">
                         <div class="report-header">
-                            <div>
-                                <h3 style="margin: 0; font-size: 1.1rem;">ID Video: {{ v_id }}</h3>
-                                <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Este video ha recibido {{ reps|length }} reporte(s).</div>
-                            </div>
+                            {% if current_video %}
+                                <img src="{{ current_video.Portada_Base64 }}" style="width: 100px; height: 56px; object-fit: cover; border-radius: 4px;">
+                                <div class="report-video-info">
+                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">{{ current_video.Titulo }}</h3>
+                                    <span style="font-size: 0.8rem; color: #64748b;">ID del Video: {{ v_id }}</span>
+                                </div>
+                            {% else %}
+                                <div class="report-video-info">
+                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">Archivo eliminado o ID Huérfano</h3>
+                                    <span style="font-size: 0.8rem; color: #64748b;">ID: {{ v_id }}</span>
+                                </div>
+                            {% endif %}
                         </div>
                         {% for r in reps %}
                         <div class="report-item">
@@ -232,9 +255,9 @@ HTML_ADMIN = """
                                 <span class="report-badge">{{ r.motivo }}</span>
                                 <span style="font-size: 0.8rem; color: #64748b;">{{ r.fecha }}</span>
                             </div>
-                            {% if r.nombre %}<div><strong>Nombre:</strong> {{ r.nombre }}</div>{% endif %}
+                            {% if r.nombre %}<div><strong>Nombre Reportante:</strong> {{ r.nombre }}</div>{% endif %}
                             {% if r.correo %}<div><strong>Correo:</strong> {{ r.correo }}</div>{% endif %}
-                            <div style="margin-top: 8px; color: #334155;"><strong>Detalle:</strong> {{ r.detalle }}</div>
+                            <div style="margin-top: 8px; color: #334155;"><strong>Detalle enviado:</strong> {{ r.detalle }}</div>
                         </div>
                         {% endfor %}
                     </div>
@@ -247,58 +270,59 @@ HTML_ADMIN = """
     </div>
 
     <script>
-        function showTab(tabId) {
+        function showTab(tabId) {{
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
-        }
-        function toggleGlobal(setting) {
-            fetch('/api/admin/toggle', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: 'global', setting: setting}) }).then(() => setTimeout(()=>location.reload(), 500));
-        }
-        function toggleVideo(v_id, setting) {
-            fetch('/api/admin/toggle', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: 'video', id: v_id, setting: setting}) }).then(() => setTimeout(()=>location.reload(), 500));
-        }
+        }}
+        function toggleGlobal(setting) {{
+            fetch('/api/admin/toggle', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify({{type: 'global', setting: setting}}) }}).then(() => setTimeout(()=>location.reload(), 500));
+        }}
+        function toggleVideo(v_id, setting) {{
+            fetch('/api/admin/toggle', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify({{type: 'video', id: v_id, setting: setting}}) }}).then(() => setTimeout(()=>location.reload(), 500));
+        }}
     </script>
 </body>
 </html>
 """
 
-HTML_GALLERY = """
+HTML_GALLERY = f"""
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Vault</title>
+    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: var(--text); padding-bottom: 3rem; -webkit-font-smoothing: antialiased; }
-        header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1.2rem 2rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.2rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
-        .badge { background: #eff6ff; color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; border: 1px solid #bfdbfe; }
-        .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
-        .section-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15); border-color: #cbd5e1; }
-        .thumbnail { width: 100%; aspect-ratio: 16/9; background-color: #f1f5f9; background-size: cover; background-position: center; border-bottom: 1px solid var(--border); position: relative; }
-        .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
-        .card:hover .play-overlay { opacity: 1; }
-        .play-icon { width: 48px; height: 48px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .info { padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .title { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .date { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-        .stat-badge { display: flex; align-items: center; gap: 4px; }
-        .live-pulse { width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        :root {{ --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }}
+        body {{ background-color: var(--bg); color: var(--text); padding-bottom: 3rem; -webkit-font-smoothing: antialiased; }}
+        header {{ background: var(--card); border-bottom: 1px solid var(--border); padding: 1.2rem 2rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }}
+        .logo {{ font-size: 1.2rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }}
+        .badge {{ background: #eff6ff; color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; border: 1px solid #bfdbfe; }}
+        .container {{ max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }}
+        .section-title {{ font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text); }}
+        .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }}
+        .card {{ background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }}
+        .card:hover {{ transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15); border-color: #cbd5e1; }}
+        .thumbnail {{ width: 100%; aspect-ratio: 16/9; background-color: #f1f5f9; background-size: cover; background-position: center; border-bottom: 1px solid var(--border); position: relative; }}
+        .play-overlay {{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }}
+        .card:hover .play-overlay {{ opacity: 1; }}
+        .play-icon {{ width: 48px; height: 48px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
+        .info {{ padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }}
+        .title {{ font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
+        .date {{ font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }}
+        .stat-badge {{ display: flex; align-items: center; gap: 4px; }}
+        .live-pulse {{ width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; }}
+        @keyframes pulse {{ 0% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }} 70% {{ box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }} 100% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }} }}
         
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem; }
-        .btn-page { padding: 0.5rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text); font-weight: 500; transition: all 0.2s; font-size: 0.9rem; }
-        .btn-page:hover { background: #f1f5f9; }
-        .page-info { font-size: 0.9rem; color: var(--muted); }
+        .pagination {{ display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem; }}
+        .btn-page {{ padding: 0.5rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text); font-weight: 500; transition: all 0.2s; font-size: 0.9rem; }}
+        .btn-page:hover {{ background: #f1f5f9; }}
+        .page-info {{ font-size: 0.9rem; color: var(--muted); }}
     </style>
 </head>
 <body>
@@ -309,77 +333,78 @@ HTML_GALLERY = """
     <div class="container">
         <h1 class="section-title">Tu Bóveda Multimedia</h1>
         <div class="grid">
-            {% for video in videos %}
-            {% set v_id = video.ID_Video|string %}
-            {% set show_vistas = config.global_vistas or video.Mostrar_Vistas %}
-            {% set show_vivo = config.global_vivo or video.Mostrar_Vivo %}
+            {{% for video in videos %}}
+            {{% set v_id = video.ID_Video|string %}}
+            {{% set show_vistas = config.global_vistas or video.Mostrar_Vistas %}}
+            {{% set show_vivo = config.global_vivo or video.Mostrar_Vivo %}}
             <a href="/ver/{{ video.ID_Video }}" class="card">
                 <div class="thumbnail" style="background-image: url('{{ video.Portada_Base64 }}');"><div class="play-overlay"><div class="play-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div></div>
                 <div class="info">
                     <div class="title">{{ video.Titulo }}</div>
                     <div class="date">
                         <span class="stat-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> {{ video.Fecha }}</span>
-                        {% if show_vistas %}<span class="stat-badge">👁️ {{ video.Vistas }} vistas</span>{% endif %}
-                        {% if show_vivo and en_vivo.get(v_id, {})|length > 0 %}<span class="stat-badge" style="color: #ef4444;"><div class="live-pulse"></div> {{ en_vivo.get(v_id, {})|length }} en vivo</span>{% endif %}
+                        {{% if show_vistas %}}<span class="stat-badge">👁️ {{ video.Vistas }} vistas</span>{{% endif %}}
+                        {{% if show_vivo and en_vivo.get(v_id, {{}})|length > 0 %}}<span class="stat-badge" style="color: #ef4444;"><div class="live-pulse"></div> {{ en_vivo.get(v_id, {{}})|length }} en vivo</span>{{% endif %}}
                     </div>
                 </div>
             </a>
-            {% endfor %}
+            {{% endfor %}}
         </div>
         
-        {% if total_pages > 1 %}
+        {{% if total_pages > 1 %}}
         <div class="pagination">
-            {% if current_page > 1 %}
+            {{% if current_page > 1 %}}
                 <a href="?page={{ current_page - 1 }}" class="btn-page">Anterior</a>
-            {% endif %}
+            {{% endif %}}
             <span class="page-info">Página {{ current_page }} de {{ total_pages }}</span>
-            {% if current_page < total_pages %}
+            {{% if current_page < total_pages %}}
                 <a href="?page={{ current_page + 1 }}" class="btn-page">Siguiente</a>
-            {% endif %}
+            {{% endif %}}
         </div>
-        {% endif %}
+        {{% endif %}}
     </div>
 </body>
 </html>
 """
 
-HTML_PLAYER = """
+HTML_PLAYER = f"""
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reproduciendo: {{ video.Titulo }}</title>
+    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
-        .nav-bar { width: 100%; padding: 1.2rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
-        .btn-volver { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #f1f5f9; color: #334155; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; border: 1px solid var(--border); }
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; width: 100%; max-width: 1000px; margin: 0 auto; }
-        .video-header { width: 100%; margin-bottom: 1rem; }
-        .video-title { font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.3; }
-        .video-meta { font-size: 0.9rem; color: #64748b; margin-top: 0.6rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .video-container { width: 100%; background: #000; border-radius: 12px; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        video { width: 100%; max-height: 75vh; outline: none; display: block; object-fit: contain; }
+        :root {{ --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; }}
+        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }}
+        body {{ background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }}
+        .nav-bar {{ width: 100%; padding: 1.2rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }}
+        .btn-volver {{ display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #f1f5f9; color: #334155; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; border: 1px solid var(--border); }}
+        .main-content {{ flex-grow: 1; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; width: 100%; max-width: 1000px; margin: 0 auto; }}
+        .video-header {{ width: 100%; margin-bottom: 1rem; }}
+        .video-title {{ font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.3; }}
+        .video-meta {{ font-size: 0.9rem; color: #64748b; margin-top: 0.6rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }}
+        .video-container {{ width: 100%; background: #000; border-radius: 12px; overflow: hidden; display: flex; justify-content: center; align-items: center; }}
+        video {{ width: 100%; max-height: 75vh; outline: none; display: block; object-fit: contain; }}
         
-        .btn-report { background: none; border: none; color: #64748b; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; margin-left: auto; font-family: inherit;}
-        .btn-report:hover { background: #f1f5f9; color: #0f172a; }
+        .btn-report {{ background: none; border: none; color: #64748b; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; margin-left: auto; font-family: inherit;}}
+        .btn-report:hover {{ background: #f1f5f9; color: #0f172a; }}
         
         /* Modal Styles */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(2px); }
-        .modal-card { background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
-        .modal-card h3 { margin-top: 0; margin-bottom: 1rem; color: #0f172a; font-size: 1.2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-size: 0.85rem; font-weight: 500; color: #475569; margin-bottom: 0.4rem; }
-        select, input, textarea { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
-        textarea { resize: vertical; min-height: 80px; }
-        .btn-submit { width: 100%; background: #2563eb; color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
-        .btn-cancel { width: 100%; background: transparent; color: #64748b; border: none; padding: 0.6rem; margin-top: 0.5rem; cursor: pointer; font-size: 0.85rem;}
+        .modal-overlay {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(2px); }}
+        .modal-card {{ background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }}
+        .modal-card h3 {{ margin-top: 0; margin-bottom: 1rem; color: #0f172a; font-size: 1.2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; }}
+        .form-group {{ margin-bottom: 1rem; }}
+        .form-group label {{ display: block; font-size: 0.85rem; font-weight: 500; color: #475569; margin-bottom: 0.4rem; }}
+        select, input, textarea {{ width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }}
+        textarea {{ resize: vertical; min-height: 80px; }}
+        .btn-submit {{ width: 100%; background: #2563eb; color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }}
+        .btn-cancel {{ width: 100%; background: transparent; color: #64748b; border: none; padding: 0.6rem; margin-top: 0.5rem; cursor: pointer; font-size: 0.85rem;}}
         
-        .live-pulse { width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; display: inline-block; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+        .live-pulse {{ width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; display: inline-block; }}
+        @keyframes pulse {{ 0% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }} 70% {{ box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }} 100% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }} }}
     </style>
 </head>
 <body>
@@ -392,13 +417,13 @@ HTML_PLAYER = """
             <h1 class="video-title">{{ video.Titulo }}</h1>
             <div class="video-meta">
                 <span>{{ video.Fecha }}</span>
-                {% set v_id = video.ID_Video|string %}
-                {% if config.global_vistas or video.Mostrar_Vistas %}
+                {{% set v_id = video.ID_Video|string %}}
+                {{% if config.global_vistas or video.Mostrar_Vistas %}}
                     <span>• 👁️ <span id="viewCount">{{ video.Vistas }}</span> vistas</span>
-                {% endif %}
-                {% if config.global_vivo or video.Mostrar_Vivo %}
-                    <span style="color: #ef4444;" id="liveContainer">• <div class="live-pulse"></div> <span id="liveCount">{{ en_vivo.get(v_id, {})|length }}</span> en vivo</span>
-                {% endif %}
+                {{% endif %}}
+                {{% if config.global_vivo or video.Mostrar_Vivo %}}
+                    <span style="color: #ef4444;" id="liveContainer">• <div class="live-pulse"></div> <span id="liveCount">{{ en_vivo.get(v_id, {{}})|length }}</span> en vivo</span>
+                {{% endif %}}
                 
                 <button class="btn-report" onclick="document.getElementById('modalOverlay').style.display='flex'">🚩 Reportar</button>
             </div>
@@ -409,7 +434,7 @@ HTML_PLAYER = """
     </div>
 
     <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-card" id="modalForm">
+        <form class="modal-card" id="modalForm" onsubmit="event.preventDefault(); enviarReporte();">
             <h3>¿Qué problema presenta este video?</h3>
             <div class="form-group">
                 <select id="repMotivo" onchange="checkReason()">
@@ -423,56 +448,66 @@ HTML_PLAYER = """
             </div>
             <div id="honeypotFields" style="display: none;">
                 <div class="form-group"><label>Nombre Legal / Titular</label><input type="text" id="repNombre" placeholder="Tu nombre completo"></div>
-                <div class="form-group"><label>Correo electrónico corporativo</label><input type="email" id="repCorreo" placeholder="contacto@empresa.com"></div>
+                <div class="form-group"><label>Correo electrónico de contacto</label><input type="email" id="repCorreo" placeholder="usuario@dominio.com"></div>
             </div>
             <div class="form-group">
                 <label id="lblDetalle">Detalles (Opcional)</label>
                 <textarea id="repDetalle" placeholder="Describe el problema..."></textarea>
             </div>
-            <button class="btn-submit" onclick="enviarReporte()">Enviar Reporte</button>
-            <button class="btn-cancel" onclick="document.getElementById('modalOverlay').style.display='none'">Cancelar</button>
-        </div>
+            <button class="btn-submit" type="submit">Enviar Reporte</button>
+            <button class="btn-cancel" type="button" onclick="document.getElementById('modalOverlay').style.display='none'">Cancelar</button>
+        </form>
         <div class="modal-card" id="modalSuccess" style="display: none; text-align: center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             <h3 style="border: none; color: #16a34a;">Reporte Recibido</h3>
             <p style="font-size: 0.9rem; color: #475569; margin-bottom: 1.5rem;">El número de seguimiento es #<span id="tkNum"></span>. Nuestro equipo legal actuará en 24 a 48 horas si se comprueba la infracción.</p>
-            <button class="btn-submit" onclick="document.getElementById('modalOverlay').style.display='none'">Cerrar</button>
+            <button class="btn-submit" type="button" onclick="document.getElementById('modalOverlay').style.display='none'">Cerrar</button>
         </div>
     </div>
 
     <script>
         const v_id = "{{ video.ID_Video }}";
         
-        function checkReason() {
+        function checkReason() {{
             const val = document.getElementById('repMotivo').value;
             const isSerious = val !== 'El video no carga / Enlace roto';
             document.getElementById('honeypotFields').style.display = isSerious ? 'block' : 'none';
+            document.getElementById('repCorreo').required = isSerious;
+            document.getElementById('repNombre').required = isSerious;
             document.getElementById('lblDetalle').innerText = isSerious ? 'Detalles de la infracción' : 'Detalles (Opcional)';
-        }
+        }}
 
-        function enviarReporte() {
-            const data = {
+        function enviarReporte() {{
+            const val = document.getElementById('repMotivo').value;
+            const isSerious = val !== 'El video no carga / Enlace roto';
+            
+            // Verificación extra en el lado de JavaScript por seguridad
+            if (isSerious && !document.getElementById('repCorreo').value.includes('@')) {{
+                alert('Por favor, introduce una dirección de correo electrónico válida.');
+                return;
+            }}
+
+            const data = {{
                 id: v_id,
                 motivo: document.getElementById('repMotivo').value,
                 nombre: document.getElementById('repNombre').value,
                 correo: document.getElementById('repCorreo').value,
                 detalle: document.getElementById('repDetalle').value
-            };
-            fetch('/api/report', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
+            }};
+            fetch('/api/report', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(data) }});
             document.getElementById('modalForm').style.display = 'none';
             document.getElementById('tkNum').innerText = Math.floor(Math.random() * 90000) + 10000;
             document.getElementById('modalSuccess').style.display = 'block';
-        }
+        }}
 
-        // PING EN VIVO (Mantiene la sesión activa en la RAM)
-        setInterval(() => {
-            fetch(`/api/ping/${v_id}`, {method: 'POST'})
+        setInterval(() => {{
+            fetch(`/api/ping/${{v_id}}`, {{method: 'POST'}})
                 .then(r => r.json())
-                .then(data => {
+                .then(data => {{
                     const el = document.getElementById('liveCount');
                     if(el) el.innerText = data.en_vivo;
-                });
-        }, 10000);
+                }});
+        }}, 10000);
     </script>
 </body>
 </html>
@@ -526,16 +561,13 @@ def index():
 @app.route('/ver/<video_id>')
 def watch(video_id):
     try:
-        # 1. Registrar IP en la memoria RAM para "En Vivo"
         if video_id not in SYSTEM_STATS['en_vivo']:
             SYSTEM_STATS['en_vivo'][video_id] = {}
         user_ip = request.remote_addr or "unknown"
         SYSTEM_STATS['en_vivo'][video_id][user_ip] = time.time()
 
-        # 2. Sumar +1 a las vistas guardadas en Google Sheets
         requests.post(SHEET_URL, json={"action": "add_view", "id": video_id})
 
-        # 3. Traer los datos actualizados de Sheets para el reproductor
         resp = requests.get(SHEET_URL)
         data_json = resp.json()
         videos = data_json.get('data', [])
@@ -544,9 +576,9 @@ def watch(video_id):
         
         if video:
             return render_template_string(HTML_PLAYER, video=video, config=config, en_vivo=SYSTEM_STATS['en_vivo'])
-        return "<div style='padding:2rem; font-family:sans-serif;'>Video no encontrado en la bóveda.</div>", 404
+        return "Video no encontrado.", 404
     except:
-        return "<div style='padding:2rem; font-family:sans-serif;'>Error al cargar el reproductor.</div>"
+        return "Error al cargar reproductor."
 
 @app.route('/admin')
 @requires_auth
@@ -560,21 +592,18 @@ def admin_panel():
         videos.reverse() 
         return render_template_string(HTML_ADMIN, videos=videos, config=config, reportes=reportes, en_vivo=SYSTEM_STATS['en_vivo'])
     except:
-        return "Error cargando datos administrativos."
+        return "Error cargando datos."
 
 # ==========================================
-# RUTAS DE API (Conexión Directa con Sheets)
+# RUTAS DE API
 # ==========================================
 @app.route('/api/ping/<video_id>', methods=['POST'])
 def api_ping(video_id):
     if video_id not in SYSTEM_STATS['en_vivo']:
         SYSTEM_STATS['en_vivo'][video_id] = {}
-    
     user_ip = request.remote_addr or "unknown"
     now = time.time()
     SYSTEM_STATS['en_vivo'][video_id][user_ip] = now
-    
-    # Limpiar IPs inactivas (sin ping por 15 segundos)
     SYSTEM_STATS['en_vivo'][video_id] = {ip: t for ip, t in SYSTEM_STATS['en_vivo'][video_id].items() if now - t < 15}
     return jsonify({"en_vivo": len(SYSTEM_STATS['en_vivo'][video_id])})
 
@@ -634,7 +663,7 @@ def run_web_server():
 threading.Thread(target=run_web_server, daemon=True).start()
 
 # ==========================================
-# LÓGICA DEL BOT DE TELEGRAM (CÓDIGO ORIGINAL INTACTO)
+# LÓGICA DEL BOT DE TELEGRAM 
 # ==========================================
 def send_main_menu(chat_id, text="Panel de Control del Catálogo:"):
     markup = InlineKeyboardMarkup(row_width=1)
@@ -657,146 +686,51 @@ def process_mediafire_inputs(message):
         if not message.document.file_name.endswith('.txt'):
             bot.reply_to(message, "⚠️ El archivo de la bóveda debe ser formato .txt")
             return
-            
-        msg_lectura = bot.reply_to(message, "⏳ *Extrayendo enlaces del documento...*", parse_mode="Markdown")
+        msg_lectura = bot.reply_to(message, "⏳ *Extrayendo enlaces...*", parse_mode="Markdown")
         try:
             file_info = bot.get_file(message.document.file_id)
             downloaded_file = bot.download_file(file_info.file_path)
             texto_crudo = downloaded_file.decode('utf-8')
             bot.delete_message(chat_id, msg_lectura.message_id)
-        except Exception as e:
-            bot.edit_message_text("❌ Error al leer el documento de la bóveda.", chat_id=chat_id, message_id=msg_lectura.message_id)
+        except Exception:
             return
     else:
         texto_crudo = message.text
 
-    urls_encontradas = [palabra for palabra in texto_crudo.split() if 'mediafire.com' in palabra and palabra.startswith('http')]
+    urls_encontradas = [p for p in texto_crudo.split() if 'mediafire.com' in p and p.startswith('http')]
     urls_unicas = list(dict.fromkeys(urls_encontradas))
     total_urls = len(urls_unicas)
-    
-    if total_urls == 0:
-        if message.content_type == 'document':
-            bot.reply_to(message, "⚠️ No detecté enlaces válidos de Mediafire en este archivo.")
-        return 
+    if total_urls == 0: return 
 
-    if total_urls == 1:
-        msg_status = bot.reply_to(message, "⏳ *Procesando enlace...*\nLimpiando título y extrayendo miniatura...", parse_mode="Markdown")
-    else:
-        msg_status = bot.reply_to(message, f"⏳ *CARGA MASIVA INICIADA*\n━━━━━━━━━━━━━━━━━━\n📁 Enlaces detectados: `{total_urls}`\n⚙️ Actualizando progreso cada 10 subidas...", parse_mode="Markdown")
-    
+    msg_status = bot.reply_to(message, f"⏳ *Procesando {total_urls} enlace(s)...*", parse_mode="Markdown")
     exitos = 0
-    fallos = 0
-    enlaces_malos = []
-    msg_errores_id = None
-    clean_name = ""
     
     for i, url in enumerate(urls_unicas, 1):
-        hubo_error = False
-        
         try:
-            raw_name = url.split('/')[-2] if len(url.split('/')) > 2 else f"Video_Sin_Nombre_{i}"
-            decoded_name = urllib.parse.unquote(urllib.parse.unquote(raw_name))
-            decoded_name = decoded_name.replace('.mp4', '').replace('.mkv', '').replace('.avi', '')
-            clean_name = re.sub(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]', ' ', decoded_name)
-            clean_name = re.sub(r'\s+', ' ', clean_name).strip()
-            
-            if not clean_name:
-                clean_name = f"Video Guardado {i}"
-            
-            cmd = [
-                'ffmpeg', '-ss', '35', '-i', url, '-vframes', '1', 
-                '-q:v', '5', '-vf', 'scale=480:-1', 
-                '-f', 'image2', '-c:v', 'mjpeg', 'pipe:1'
-            ]
-            
+            raw_name = url.split('/')[-2] if len(url.split('/')) > 2 else f"Video_{i}"
+            clean_name = re.sub(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]', ' ', urllib.parse.unquote(raw_name)).strip()
+            cmd = ['ffmpeg', '-ss', '35', '-i', url, '-vframes', '1', '-q:v', '5', '-vf', 'scale=480:-1', '-f', 'image2', '-c:v', 'mjpeg', 'pipe:1']
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
             out, _ = process.communicate()
-            
             b64_string = "data:image/jpeg;base64," + base64.b64encode(out).decode('utf-8') if out else ""
-                
-            video_id = str(int(time.time()) + i) 
-            payload = {
-                "id": video_id,
-                "titulo": clean_name,
-                "enlace": url,
-                "portada": b64_string,
-                "fecha": time.strftime("%d/%m/%Y")
-            }
+            requests.post(SHEET_URL, json={"id": str(int(time.time()) + i), "titulo": clean_name, "enlace": url, "portada": b64_string, "fecha": time.strftime("%d/%m/%Y")})
+            exitos += 1
+        except: pass
             
-            response = requests.post(SHEET_URL, json=payload)
-            
-            if response.status_code == 200:
-                exitos += 1
-            else:
-                hubo_error = True
-                
-        except Exception:
-            hubo_error = True
-            
-        if hubo_error:
-            fallos += 1
-            enlaces_malos.append(url)
-            
-            texto_errores = "⚠️ *ENLACES CON ERROR (Actualización en vivo):*\n━━━━━━━━━━━━━━━━━━\n"
-            texto_errores += "\n".join([f"`{link}`" for link in enlaces_malos])
-            
-            if not msg_errores_id:
-                try:
-                    err_msg = bot.reply_to(message, texto_errores, parse_mode="Markdown")
-                    msg_errores_id = err_msg.message_id
-                except:
-                    pass
-            else:
-                try:
-                    bot.edit_message_text(texto_errores, chat_id=chat_id, message_id=msg_errores_id, parse_mode="Markdown")
-                except:
-                    pass
-            
-        if total_urls > 1 and i % 10 == 0:
-            try:
-                bot.edit_message_text(f"⏳ *PROCESANDO LOTE...*\n━━━━━━━━━━━━━━━━━━\n📊 Avance: `{i}/{total_urls}`\n✅ Exitosos: `{exitos}`\n❌ Errores: `{fallos}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
-            except:
-                pass 
-
-    if total_urls == 1:
-        if exitos == 1:
-            bot.edit_message_text(f"✅ *Video Guardado Exitosamente*\n\n📄 *Título:* `{clean_name}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
-        else:
-            bot.edit_message_text("❌ Error al guardar en la base de datos. Verifica el enlace de error arriba.", chat_id=chat_id, message_id=msg_status.message_id)
-    else:
-        bot.edit_message_text(f"✅ *CARGA MASIVA FINALIZADA*\n━━━━━━━━━━━━━━━━━━\n📁 Total escaneados: `{total_urls}`\n✅ Subidos a la Bóveda: `{exitos}`\n❌ Errores detectados: `{fallos}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
-    
-    send_main_menu(chat_id, "¿Qué deseas hacer ahora?")
+    bot.edit_message_text(f"✅ *CARGA FINALIZADA*\nSubidos: `{exitos}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
 
 @bot.callback_query_handler(func=lambda call: call.data == "history")
 def show_history(call):
     chat_id = call.message.chat.id
-    bot.edit_message_text("⏳ Consultando la Bóveda...", chat_id=chat_id, message_id=call.message.message_id)
-    
     try:
         resp = requests.get(SHEET_URL)
         data = resp.json().get('data', [])
-        
-        if not data:
-            bot.edit_message_text("📭 La bóveda está vacía.", chat_id=chat_id, message_id=call.message.message_id)
-            send_main_menu(chat_id)
-            return
-            
+        if not data: return
         markup = InlineKeyboardMarkup(row_width=1)
         for video in reversed(data[-5:]):
-            url_reproductor = f"{WEB_URL}/ver/{video['ID_Video']}"
-            markup.add(InlineKeyboardButton(f"▶️ {video['Titulo']}", url=url_reproductor))
-            
-        markup.add(InlineKeyboardButton("🔙 Volver al Menú", callback_data="menu"))
-        bot.edit_message_text("📋 *Últimos 5 videos guardados:*", chat_id=chat_id, message_id=call.message.message_id, parse_mode="Markdown", reply_markup=markup)
-        
-    except Exception as e:
-        bot.edit_message_text("❌ Error al leer el catálogo.", chat_id=chat_id, message_id=call.message.message_id)
-
-@bot.callback_query_handler(func=lambda call: call.data == "menu")
-def return_menu(call):
-    bot.delete_message(call.message.chat.id, call.message.message_id)
-    send_main_menu(call.message.chat.id)
+            markup.add(InlineKeyboardButton(f"▶️ {video['Titulo']}", url=f"{WEB_URL}/ver/{video['ID_Video']}"))
+        bot.edit_message_text("📋 *Últimos 5:*", chat_id=chat_id, message_id=call.message.message_id, parse_mode="Markdown", reply_markup=markup)
+    except: pass
 
 print("🚀 Lumina Streaming Vault Iniciado...")
 bot.infinity_polling()
