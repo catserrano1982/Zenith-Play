@@ -130,10 +130,6 @@ HTML_ADMIN = """
         input:checked + .slider:before { transform: translateX(20px); }
         .toggle-label { font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 
-        .report-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .report-header { display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
-        .report-badge { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block;}
-        .report-item { background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -232,39 +228,60 @@ HTML_ADMIN = """
                         {% endif %}
                     {% endfor %}
 
-                    <div class="report-card">
-                        <div class="report-header" style="display: flex; gap: 1rem; align-items: center; justify-content: flex-start; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem;">
+                    <div class="report-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                        <div class="report-header" style="display: flex; gap: 1.5rem; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; margin-bottom: 1rem;">
+                            
                             {% if current_video %}
-                                <img src="{{ current_video.Portada_Base64 }}" style="width: 120px; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
-                                <div class="report-video-info">
-                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">{{ current_video.Titulo }}</h3>
-                                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">ID Video: {{ v_id }} • {{ reps|length }} reporte(s)</div>
+                                <img src="{{ current_video.Portada_Base64 }}" style="width: 180px; aspect-ratio: 16/9; object-fit: cover; border-radius: 8px; border: 1px solid #cbd5e1; flex-shrink: 0;">
+                                <div class="report-video-info" style="flex-grow: 1;">
+                                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; color: #0f172a; font-weight: 600; line-height: 1.3;">{{ current_video.Titulo }}</h3>
+                                    <div style="display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; color: #475569; margin-bottom: 0.5rem;">
+                                        <span>🆔 ID: <strong>{{ v_id }}</strong></span>
+                                    </div>
+                                    <div style="font-size: 0.9rem; color: #dc2626; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                        {{ reps|length }} reporte(s) activo(s)
+                                    </div>
                                 </div>
                             {% else %}
-                                <div class="report-video-info">
-                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">ID Video: {{ v_id }}</h3>
-                                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Este video ha recibido {{ reps|length }} reporte(s).</div>
+                                <div class="report-video-info" style="flex-grow: 1;">
+                                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.25rem; color: #0f172a; font-weight: 600;">Video No Encontrado</h3>
+                                    <div style="font-size: 0.9rem; color: #64748b;">ID de la Bóveda: <strong>{{ v_id }}</strong></div>
+                                    <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Este video ha recibido reportes, pero ya no se encuentra en la base de datos principal.</div>
                                 </div>
                             {% endif %}
+
                         </div>
-                        <div style="margin-top: 1rem;">
+                        
+                        <div class="report-list">
+                            <h4 style="margin: 0 0 1rem 0; font-size: 1rem; color: #334155; font-weight: 500;">Historial de quejas:</h4>
                             {% for r in reps %}
-                            <div class="report-item">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                    <span class="report-badge">{{ r.motivo }}</span>
-                                    <span style="font-size: 0.8rem; color: #64748b;">{{ r.fecha }}</span>
+                            <div class="report-item" style="background: #f8fafc; padding: 1.2rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 0.8rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                                    <span class="report-badge" style="background: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;">{{ r.motivo }}</span>
+                                    <span style="font-size: 0.85rem; color: #64748b; font-weight: 500;">📅 {{ r.fecha }}</span>
                                 </div>
-                                {% if r.nombre %}<div><strong>Nombre:</strong> {{ r.nombre }}</div>{% endif %}
-                                {% if r.correo %}<div><strong>Correo:</strong> {{ r.correo }}</div>{% endif %}
-                                <div style="margin-top: 8px; color: #334155;"><strong>Detalle:</strong> {{ r.detalle }}</div>
+                                <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                                    {% if r.nombre %}<div style="font-size: 0.9rem; color: #334155;">👤 <strong>Reportado por:</strong> {{ r.nombre }}</div>{% endif %}
+                                    {% if r.correo %}<div style="font-size: 0.9rem; color: #334155;">📧 <strong>Contacto:</strong> {{ r.correo }}</div>{% endif %}
+                                </div>
+                                <div style="margin-top: 12px; color: #0f172a; font-size: 0.95rem; background: white; padding: 12px; border-radius: 6px; border: 1px solid #cbd5e1; line-height: 1.5;">
+                                    <strong>📝 Mensaje del usuario:</strong><br>
+                                    {{ r.detalle if r.detalle else 'No se proporcionaron detalles adicionales.' }}
+                                </div>
                             </div>
                             {% endfor %}
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
+            
             {% if not has_reports %}
-                <p style="color: #64748b; text-align: center; padding: 2rem;">No hay reportes registrados en el sistema.</p>
+                <div style="text-align: center; padding: 4rem 2rem; background: white; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <h3 style="color: #475569; margin: 0; font-size: 1.25rem;">Sin reportes pendientes</h3>
+                    <p style="color: #64748b; font-size: 0.95rem; margin-top: 0.5rem;">Todo está funcionando correctamente en la bóveda.</p>
+                </div>
             {% endif %}
         </div>
     </div>
