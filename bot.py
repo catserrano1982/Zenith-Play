@@ -47,26 +47,25 @@ def requires_auth(f):
 # ==========================================
 # INTERFAZ WEB (DISEÑO BLANCO Y PROFESIONAL)
 # ==========================================
-HTML_LOGIN = f"""
+HTML_LOGIN = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Restringido | Vault</title>
-    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {{ background: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #0f172a; }}
-        .login-card {{ background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; width: 100%; max-width: 380px; text-align: center; }}
-        .logo-icon {{ width: 48px; height: 48px; background: #eff6ff; color: #2563eb; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin: 0 auto 1.5rem auto; border: 1px solid #bfdbfe; }}
-        h2 {{ margin-bottom: 0.5rem; font-weight: 600; font-size: 1.25rem; }}
-        p {{ color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; }}
-        input[type="password"] {{ width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 1rem; outline: none; transition: border-color 0.2s; }}
-        input[type="password"]:focus {{ border-color: #2563eb; }}
-        button {{ width: 100%; padding: 0.8rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 500; font-size: 1rem; cursor: pointer; transition: background 0.2s; }}
-        button:hover {{ background: #1d4ed8; }}
-        .error {{ color: #dc2626; font-size: 0.85rem; margin-top: 1rem; background: #fef2f2; padding: 0.5rem; border-radius: 6px; border: 1px solid #fca5a5; display: {{% if error %}}block{{% else %}}none{{% endif %}}; }}
+        body { background: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #0f172a; }
+        .login-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; width: 100%; max-width: 380px; text-align: center; }
+        .logo-icon { width: 48px; height: 48px; background: #eff6ff; color: #2563eb; border-radius: 12px; display: flex; justify-content: center; align-items: center; margin: 0 auto 1.5rem auto; border: 1px solid #bfdbfe; }
+        h2 { margin-bottom: 0.5rem; font-weight: 600; font-size: 1.25rem; }
+        p { color: #64748b; font-size: 0.9rem; margin-bottom: 2rem; }
+        input[type="password"] { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+        input[type="password"]:focus { border-color: #2563eb; }
+        button { width: 100%; padding: 0.8rem; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: 500; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #1d4ed8; }
+        .error { color: #dc2626; font-size: 0.85rem; margin-top: 1rem; background: #fef2f2; padding: 0.5rem; border-radius: 6px; border: 1px solid #fca5a5; display: {% if error %}block{% else %}none{% endif %}; }
     </style>
 </head>
 <body>
@@ -86,58 +85,57 @@ HTML_LOGIN = f"""
 </html>
 """
 
-HTML_ADMIN = f"""
+HTML_ADMIN = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Vault</title>
-    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {{ font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }}
-        .nav-admin {{ max-width: 1000px; margin: 0 auto 1rem auto; display: flex; justify-content: flex-end; }}
-        .btn-logout {{ background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; }}
-        .btn-logout:hover {{ background: #e2e8f0; }}
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }
+        .nav-admin { max-width: 1000px; margin: 0 auto 1rem auto; display: flex; justify-content: flex-end; }
+        .btn-logout { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+        .btn-logout:hover { background: #e2e8f0; }
         
-        .container {{ max-width: 1000px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }}
-        h1 {{ margin-bottom: 1.5rem; font-size: 1.5rem; color: #0f172a; }}
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 2rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        h1 { margin-bottom: 1.5rem; font-size: 1.5rem; color: #0f172a; }
         
-        .tabs {{ display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }}
-        .tab-btn {{ background: none; border: none; font-size: 1rem; font-weight: 500; color: #64748b; cursor: pointer; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s; }}
-        .tab-btn.active {{ color: #2563eb; background: #eff6ff; }}
-        .tab-btn:hover:not(.active) {{ color: #0f172a; background: #f1f5f9; }}
-        .tab-content {{ display: none; }}
-        .tab-content.active {{ display: block; }}
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }
+        .tab-btn { background: none; border: none; font-size: 1rem; font-weight: 500; color: #64748b; cursor: pointer; padding: 0.5rem 1rem; border-radius: 6px; transition: all 0.2s; }
+        .tab-btn.active { color: #2563eb; background: #eff6ff; }
+        .tab-btn:hover:not(.active) { color: #0f172a; background: #f1f5f9; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        .config-card {{ background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }}
-        .config-title {{ font-weight: 600; color: #1e3a8a; margin-bottom: 0.25rem; font-size: 1rem; }}
-        .config-desc {{ color: #3b82f6; font-size: 0.85rem; margin: 0; }}
+        .config-card { background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .config-title { font-weight: 600; color: #1e3a8a; margin-bottom: 0.25rem; font-size: 1rem; }
+        .config-desc { color: #3b82f6; font-size: 0.85rem; margin: 0; }
         
-        h2 {{ font-size: 1.2rem; color: #0f172a; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; }}
-        table {{ width: 100%; border-collapse: collapse; }}
-        th, td {{ padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }}
-        th {{ font-weight: 600; color: #64748b; font-size: 0.9rem; }}
-        img {{ border-radius: 6px; width: 120px; aspect-ratio: 16/9; object-fit: cover; border: 1px solid #e2e8f0; }}
-        .form-row {{ display: flex; gap: 8px; align-items: center; }}
-        input[type="number"] {{ width: 60px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-family: inherit; }}
-        button {{ background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; font-family: inherit; transition: background 0.2s; }}
-        button:hover {{ background: #1d4ed8; }}
+        h2 { font-size: 1.2rem; color: #0f172a; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e2e8f0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+        th { font-weight: 600; color: #64748b; font-size: 0.9rem; }
+        img { border-radius: 6px; width: 120px; aspect-ratio: 16/9; object-fit: cover; border: 1px solid #e2e8f0; }
+        .form-row { display: flex; gap: 8px; align-items: center; }
+        input[type="number"] { width: 60px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; font-family: inherit; }
+        button { background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500; font-family: inherit; transition: background 0.2s; }
+        button:hover { background: #1d4ed8; }
         
-        .switch {{ position: relative; display: inline-block; width: 44px; height: 24px; }}
-        .switch input {{ opacity: 0; width: 0; height: 0; }}
-        .slider {{ position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px; }}
-        .slider:before {{ position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }}
-        input:checked + .slider {{ background-color: #2563eb; }}
-        input:checked + .slider:before {{ transform: translateX(20px); }}
-        .toggle-label {{ font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }}
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(20px); }
+        .toggle-label { font-size: 0.85rem; color: #475569; display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 
-        .report-card {{ background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }}
-        .report-header {{ display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }}
-        .report-video-info {{ flex-grow: 1; }}
-        .report-badge {{ background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block; }}
-        .report-item {{ background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }}
+        .report-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .report-header { display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
+        .report-video-info { flex-grow: 1; }
+        .report-badge { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block; }
+        .report-item { background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -161,11 +159,11 @@ HTML_ADMIN = f"""
                 </div>
                 <div style="display: flex; gap: 1.5rem;">
                     <label class="toggle-label">
-                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vistas')" {{% if config.global_vistas %}}checked{{% endif %}}><span class="slider"></span></div>
+                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vistas')" {% if config.global_vistas %}checked{% endif %}><span class="slider"></span></div>
                         Vistas Totales
                     </label>
                     <label class="toggle-label">
-                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vivo')" {{% if config.global_vivo %}}checked{{% endif %}}><span class="slider"></span></div>
+                        <div class="switch"><input type="checkbox" onchange="toggleGlobal('global_vivo')" {% if config.global_vivo %}checked{% endif %}><span class="slider"></span></div>
                         En Vivo
                     </label>
                 </div>
@@ -200,10 +198,10 @@ HTML_ADMIN = f"""
                     </td>
                     <td>
                         <label class="toggle-label">
-                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vistas')" {{% if video.Mostrar_Vistas %}}checked{{% endif %}}><span class="slider"></span></div> Vistas
+                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vistas')" {% if video.Mostrar_Vistas %}checked{% endif %}><span class="slider"></span></div> Vistas
                         </label>
                         <label class="toggle-label">
-                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vivo')" {{% if video.Mostrar_Vivo %}}checked{{% endif %}}><span class="slider"></span></div> En Vivo
+                            <div class="switch"><input type="checkbox" onchange="toggleVideo('{{ video.ID_Video }}', 'vivo')" {% if video.Mostrar_Vivo %}checked{% endif %}><span class="slider"></span></div> En Vivo
                         </label>
                     </td>
                     <td>
@@ -226,7 +224,6 @@ HTML_ADMIN = f"""
                 {% if reps|length > 0 %}
                     {% set has_reports = true %}
                     
-                    {# Buscar el video correspondiente para extraer su miniatura y título #}
                     {% set current_video = None %}
                     {% for v in videos %}
                         {% if v.ID_Video|string == v_id|string %}
@@ -270,59 +267,58 @@ HTML_ADMIN = f"""
     </div>
 
     <script>
-        function showTab(tabId) {{
+        function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             event.target.classList.add('active');
-        }}
-        function toggleGlobal(setting) {{
-            fetch('/api/admin/toggle', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify({{type: 'global', setting: setting}}) }}).then(() => setTimeout(()=>location.reload(), 500));
-        }}
-        function toggleVideo(v_id, setting) {{
-            fetch('/api/admin/toggle', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify({{type: 'video', id: v_id, setting: setting}}) }}).then(() => setTimeout(()=>location.reload(), 500));
-        }}
+        }
+        function toggleGlobal(setting) {
+            fetch('/api/admin/toggle', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: 'global', setting: setting}) }).then(() => setTimeout(()=>location.reload(), 500));
+        }
+        function toggleVideo(v_id, setting) {
+            fetch('/api/admin/toggle', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: 'video', id: v_id, setting: setting}) }).then(() => setTimeout(()=>location.reload(), 500));
+        }
     </script>
 </body>
 </html>
 """
 
-HTML_GALLERY = f"""
+HTML_GALLERY = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Vault</title>
-    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {{ --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }}
-        body {{ background-color: var(--bg); color: var(--text); padding-bottom: 3rem; -webkit-font-smoothing: antialiased; }}
-        header {{ background: var(--card); border-bottom: 1px solid var(--border); padding: 1.2rem 2rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }}
-        .logo {{ font-size: 1.2rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }}
-        .badge {{ background: #eff6ff; color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; border: 1px solid #bfdbfe; }}
-        .container {{ max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }}
-        .section-title {{ font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text); }}
-        .grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }}
-        .card {{ background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }}
-        .card:hover {{ transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15); border-color: #cbd5e1; }}
-        .thumbnail {{ width: 100%; aspect-ratio: 16/9; background-color: #f1f5f9; background-size: cover; background-position: center; border-bottom: 1px solid var(--border); position: relative; }}
-        .play-overlay {{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }}
-        .card:hover .play-overlay {{ opacity: 1; }}
-        .play-icon {{ width: 48px; height: 48px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
-        .info {{ padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }}
-        .title {{ font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }}
-        .date {{ font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }}
-        .stat-badge {{ display: flex; align-items: center; gap: 4px; }}
-        .live-pulse {{ width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; }}
-        @keyframes pulse {{ 0% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }} 70% {{ box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }} 100% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }} }}
+        :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding-bottom: 3rem; -webkit-font-smoothing: antialiased; }
+        header { background: var(--card); border-bottom: 1px solid var(--border); padding: 1.2rem 2rem; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.2rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        .badge { background: #eff6ff; color: var(--primary); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; border: 1px solid #bfdbfe; }
+        .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
+        .section-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.3s ease; text-decoration: none; color: inherit; display: flex; flex-direction: column; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.15); border-color: #cbd5e1; }
+        .thumbnail { width: 100%; aspect-ratio: 16/9; background-color: #f1f5f9; background-size: cover; background-position: center; border-bottom: 1px solid var(--border); position: relative; }
+        .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s; }
+        .card:hover .play-overlay { opacity: 1; }
+        .play-icon { width: 48px; height: 48px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .info { padding: 1.2rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .title { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .date { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .stat-badge { display: flex; align-items: center; gap: 4px; }
+        .live-pulse { width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
         
-        .pagination {{ display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem; }}
-        .btn-page {{ padding: 0.5rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text); font-weight: 500; transition: all 0.2s; font-size: 0.9rem; }}
-        .btn-page:hover {{ background: #f1f5f9; }}
-        .page-info {{ font-size: 0.9rem; color: var(--muted); }}
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 3rem; }
+        .btn-page { padding: 0.5rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; text-decoration: none; color: var(--text); font-weight: 500; transition: all 0.2s; font-size: 0.9rem; }
+        .btn-page:hover { background: #f1f5f9; }
+        .page-info { font-size: 0.9rem; color: var(--muted); }
     </style>
 </head>
 <body>
@@ -333,78 +329,77 @@ HTML_GALLERY = f"""
     <div class="container">
         <h1 class="section-title">Tu Bóveda Multimedia</h1>
         <div class="grid">
-            {{% for video in videos %}}
-            {{% set v_id = video.ID_Video|string %}}
-            {{% set show_vistas = config.global_vistas or video.Mostrar_Vistas %}}
-            {{% set show_vivo = config.global_vivo or video.Mostrar_Vivo %}}
+            {% for video in videos %}
+            {% set v_id = video.ID_Video|string %}
+            {% set show_vistas = config.global_vistas or video.Mostrar_Vistas %}
+            {% set show_vivo = config.global_vivo or video.Mostrar_Vivo %}
             <a href="/ver/{{ video.ID_Video }}" class="card">
                 <div class="thumbnail" style="background-image: url('{{ video.Portada_Base64 }}');"><div class="play-overlay"><div class="play-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="var(--primary)" stroke="var(--primary)" stroke-width="2" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div></div>
                 <div class="info">
                     <div class="title">{{ video.Titulo }}</div>
                     <div class="date">
                         <span class="stat-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> {{ video.Fecha }}</span>
-                        {{% if show_vistas %}}<span class="stat-badge">👁️ {{ video.Vistas }} vistas</span>{{% endif %}}
-                        {{% if show_vivo and en_vivo.get(v_id, {{}})|length > 0 %}}<span class="stat-badge" style="color: #ef4444;"><div class="live-pulse"></div> {{ en_vivo.get(v_id, {{}})|length }} en vivo</span>{{% endif %}}
+                        {% if show_vistas %}<span class="stat-badge">👁️ {{ video.Vistas }} vistas</span>{% endif %}
+                        {% if show_vivo and en_vivo.get(v_id, {})|length > 0 %}<span class="stat-badge" style="color: #ef4444;"><div class="live-pulse"></div> {{ en_vivo.get(v_id, {})|length }} en vivo</span>{% endif %}
                     </div>
                 </div>
             </a>
-            {{% endfor %}}
+            {% endfor %}
         </div>
         
-        {{% if total_pages > 1 %}}
+        {% if total_pages > 1 %}
         <div class="pagination">
-            {{% if current_page > 1 %}}
+            {% if current_page > 1 %}
                 <a href="?page={{ current_page - 1 }}" class="btn-page">Anterior</a>
-            {{% endif %}}
+            {% endif %}
             <span class="page-info">Página {{ current_page }} de {{ total_pages }}</span>
-            {{% if current_page < total_pages %}}
+            {% if current_page < total_pages %}
                 <a href="?page={{ current_page + 1 }}" class="btn-page">Siguiente</a>
-            {{% endif %}}
+            {% endif %}
         </div>
-        {{% endif %}}
+        {% endif %}
     </div>
 </body>
 </html>
 """
 
-HTML_PLAYER = f"""
+HTML_PLAYER = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reproduciendo: {{ video.Titulo }}</title>
-    {FAVICON_LINK}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {{ --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; }}
-        * {{ box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }}
-        body {{ background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }}
-        .nav-bar {{ width: 100%; padding: 1.2rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }}
-        .btn-volver {{ display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #f1f5f9; color: #334155; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; border: 1px solid var(--border); }}
-        .main-content {{ flex-grow: 1; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; width: 100%; max-width: 1000px; margin: 0 auto; }}
-        .video-header {{ width: 100%; margin-bottom: 1rem; }}
-        .video-title {{ font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.3; }}
-        .video-meta {{ font-size: 0.9rem; color: #64748b; margin-top: 0.6rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }}
-        .video-container {{ width: 100%; background: #000; border-radius: 12px; overflow: hidden; display: flex; justify-content: center; align-items: center; }}
-        video {{ width: 100%; max-height: 75vh; outline: none; display: block; object-fit: contain; }}
+        :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+        .nav-bar { width: 100%; padding: 1.2rem 2rem; background: var(--card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+        .btn-volver { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: #f1f5f9; color: #334155; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 0.9rem; border: 1px solid var(--border); }
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; width: 100%; max-width: 1000px; margin: 0 auto; }
+        .video-header { width: 100%; margin-bottom: 1rem; }
+        .video-title { font-size: 1.4rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+        .video-meta { font-size: 0.9rem; color: #64748b; margin-top: 0.6rem; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .video-container { width: 100%; background: #000; border-radius: 12px; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        video { width: 100%; max-height: 75vh; outline: none; display: block; object-fit: contain; }
         
-        .btn-report {{ background: none; border: none; color: #64748b; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; margin-left: auto; font-family: inherit;}}
-        .btn-report:hover {{ background: #f1f5f9; color: #0f172a; }}
+        .btn-report { background: none; border: none; color: #64748b; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; margin-left: auto; font-family: inherit;}
+        .btn-report:hover { background: #f1f5f9; color: #0f172a; }
         
         /* Modal Styles */
-        .modal-overlay {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(2px); }}
-        .modal-card {{ background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }}
-        .modal-card h3 {{ margin-top: 0; margin-bottom: 1rem; color: #0f172a; font-size: 1.2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; }}
-        .form-group {{ margin-bottom: 1rem; }}
-        .form-group label {{ display: block; font-size: 0.85rem; font-weight: 500; color: #475569; margin-bottom: 0.4rem; }}
-        select, input, textarea {{ width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }}
-        textarea {{ resize: vertical; min-height: 80px; }}
-        .btn-submit {{ width: 100%; background: #2563eb; color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }}
-        .btn-cancel {{ width: 100%; background: transparent; color: #64748b; border: none; padding: 0.6rem; margin-top: 0.5rem; cursor: pointer; font-size: 0.85rem;}}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); display: none; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(2px); }
+        .modal-card { background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 450px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        .modal-card h3 { margin-top: 0; margin-bottom: 1rem; color: #0f172a; font-size: 1.2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 500; color: #475569; margin-bottom: 0.4rem; }
+        select, input, textarea { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
+        textarea { resize: vertical; min-height: 80px; }
+        .btn-submit { width: 100%; background: #2563eb; color: white; border: none; padding: 0.8rem; border-radius: 6px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
+        .btn-cancel { width: 100%; background: transparent; color: #64748b; border: none; padding: 0.6rem; margin-top: 0.5rem; cursor: pointer; font-size: 0.85rem;}
         
-        .live-pulse {{ width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; display: inline-block; }}
-        @keyframes pulse {{ 0% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }} 70% {{ box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }} 100% {{ box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }} }}
+        .live-pulse { width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; animation: pulse 2s infinite; display: inline-block; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
     </style>
 </head>
 <body>
@@ -417,13 +412,13 @@ HTML_PLAYER = f"""
             <h1 class="video-title">{{ video.Titulo }}</h1>
             <div class="video-meta">
                 <span>{{ video.Fecha }}</span>
-                {{% set v_id = video.ID_Video|string %}}
-                {{% if config.global_vistas or video.Mostrar_Vistas %}}
+                {% set v_id = video.ID_Video|string %}
+                {% if config.global_vistas or video.Mostrar_Vistas %}
                     <span>• 👁️ <span id="viewCount">{{ video.Vistas }}</span> vistas</span>
-                {{% endif %}}
-                {{% if config.global_vivo or video.Mostrar_Vivo %}}
-                    <span style="color: #ef4444;" id="liveContainer">• <div class="live-pulse"></div> <span id="liveCount">{{ en_vivo.get(v_id, {{}})|length }}</span> en vivo</span>
-                {{% endif %}}
+                {% endif %}
+                {% if config.global_vivo or video.Mostrar_Vivo %}
+                    <span style="color: #ef4444;" id="liveContainer">• <div class="live-pulse"></div> <span id="liveCount">{{ en_vivo.get(v_id, {})|length }}</span> en vivo</span>
+                {% endif %}
                 
                 <button class="btn-report" onclick="document.getElementById('modalOverlay').style.display='flex'">🚩 Reportar</button>
             </div>
@@ -468,50 +463,55 @@ HTML_PLAYER = f"""
     <script>
         const v_id = "{{ video.ID_Video }}";
         
-        function checkReason() {{
+        function checkReason() {
             const val = document.getElementById('repMotivo').value;
             const isSerious = val !== 'El video no carga / Enlace roto';
             document.getElementById('honeypotFields').style.display = isSerious ? 'block' : 'none';
             document.getElementById('repCorreo').required = isSerious;
             document.getElementById('repNombre').required = isSerious;
             document.getElementById('lblDetalle').innerText = isSerious ? 'Detalles de la infracción' : 'Detalles (Opcional)';
-        }}
+        }
 
-        function enviarReporte() {{
+        function enviarReporte() {
             const val = document.getElementById('repMotivo').value;
             const isSerious = val !== 'El video no carga / Enlace roto';
             
-            // Verificación extra en el lado de JavaScript por seguridad
-            if (isSerious && !document.getElementById('repCorreo').value.includes('@')) {{
+            if (isSerious && !document.getElementById('repCorreo').value.includes('@')) {
                 alert('Por favor, introduce una dirección de correo electrónico válida.');
                 return;
-            }}
+            }
 
-            const data = {{
+            const data = {
                 id: v_id,
                 motivo: document.getElementById('repMotivo').value,
                 nombre: document.getElementById('repNombre').value,
                 correo: document.getElementById('repCorreo').value,
                 detalle: document.getElementById('repDetalle').value
-            }};
-            fetch('/api/report', {{ method: 'POST', headers: {{'Content-Type': 'application/json'}}, body: JSON.stringify(data) }});
+            };
+            fetch('/api/report', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
             document.getElementById('modalForm').style.display = 'none';
             document.getElementById('tkNum').innerText = Math.floor(Math.random() * 90000) + 10000;
             document.getElementById('modalSuccess').style.display = 'block';
-        }}
+        }
 
-        setInterval(() => {{
-            fetch(`/api/ping/${{v_id}}`, {{method: 'POST'}})
+        setInterval(() => {
+            fetch(`/api/ping/${v_id}`, {method: 'POST'})
                 .then(r => r.json())
-                .then(data => {{
+                .then(data => {
                     const el = document.getElementById('liveCount');
                     if(el) el.innerText = data.en_vivo;
-                }});
-        }}, 10000);
+                });
+        }, 10000);
     </script>
 </body>
 </html>
 """
+
+# Inyectar el Favicon limpiamente usando reemplazo de texto para evitar romper Jinja2
+HTML_LOGIN = HTML_LOGIN.replace("", FAVICON_LINK)
+HTML_ADMIN = HTML_ADMIN.replace("", FAVICON_LINK)
+HTML_GALLERY = HTML_GALLERY.replace("", FAVICON_LINK)
+HTML_PLAYER = HTML_PLAYER.replace("", FAVICON_LINK)
 
 # ==========================================
 # RUTAS DEL SERVIDOR WEB
