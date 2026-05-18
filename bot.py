@@ -30,9 +30,6 @@ app.secret_key = os.environ.get('SECRET_KEY', 'zenith_clave_secreta_segura')
 # Memoria RAM exclusiva para usuarios "En Vivo"
 SYSTEM_STATS = {'en_vivo': {}}
 
-# Ícono Global Favicon en formato SVG (Evita el mundo gris por defecto)
-FAVICON_LINK = '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">'
-
 # ==========================================
 # PROTECCIÓN DEL PANEL ADMINISTRADOR
 # ==========================================
@@ -54,6 +51,7 @@ HTML_LOGIN = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso Restringido | Vault</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { background: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; color: #0f172a; }
@@ -92,6 +90,7 @@ HTML_ADMIN = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Vault</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 2rem; color: #0f172a; margin: 0; }
@@ -134,7 +133,7 @@ HTML_ADMIN = """
         .report-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
         .report-header { display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
         .report-video-info { flex-grow: 1; }
-        .report-badge { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block; }
+        .report-badge { background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block;}
         .report-item { background: #f8fafc; padding: 1rem; border-radius: 6px; margin-bottom: 0.5rem; font-size: 0.9rem; }
     </style>
 </head>
@@ -218,12 +217,13 @@ HTML_ADMIN = """
         </div>
 
         <div id="reportes" class="tab-content">
-            <h2>Bandeja de Reportes Maliciosos y Enlaces Caídos</h2>
+            <h2>Bandeja de Reportes</h2>
             {% set has_reports = false %}
             {% for v_id, reps in reportes.items() %}
                 {% if reps|length > 0 %}
                     {% set has_reports = true %}
                     
+                    {# MOTOR DE PREVISUALIZACIÓN DE COMPATIBILIDAD DINÁMICA #}
                     {% set current_video = None %}
                     {% for v in videos %}
                         {% if v.ID_Video|string == v_id|string %}
@@ -234,29 +234,31 @@ HTML_ADMIN = """
                     <div class="report-card">
                         <div class="report-header">
                             {% if current_video %}
-                                <img src="{{ current_video.Portada_Base64 }}" style="width: 100px; height: 56px; object-fit: cover; border-radius: 4px;">
+                                <img src="{{ current_video.Portada_Base64 }}" style="width: 120px; aspect-ratio: 16/9; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
                                 <div class="report-video-info">
                                     <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">{{ current_video.Titulo }}</h3>
-                                    <span style="font-size: 0.8rem; color: #64748b;">ID del Video: {{ v_id }}</span>
+                                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">ID Video: {{ v_id }} • {{ reps|length }} reporte(s) detectado(s)</div>
                                 </div>
                             {% else %}
                                 <div class="report-video-info">
-                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">Archivo eliminado o ID Huérfano</h3>
-                                    <span style="font-size: 0.8rem; color: #64748b;">ID: {{ v_id }}</span>
+                                    <h3 style="margin: 0; font-size: 1.1rem; color: #0f172a;">Archivo de Video Remoto (ID: {{ v_id }})</h3>
+                                    <div style="font-size: 0.85rem; color: #64748b; margin-top: 4px;">Este ID acumuló {{ reps|length }} reporte(s).</div>
                                 </div>
                             {% endif %}
                         </div>
-                        {% for r in reps %}
-                        <div class="report-item">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span class="report-badge">{{ r.motivo }}</span>
-                                <span style="font-size: 0.8rem; color: #64748b;">{{ r.fecha }}</span>
+                        <div style="margin-top: 1rem;">
+                            {% for r in reps %}
+                            <div class="report-item">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span class="report-badge">{{ r.motivo }}</span>
+                                    <span style="font-size: 0.8rem; color: #64748b;">{{ r.fecha }}</span>
+                                </div>
+                                {% if r.nombre %}<div><strong>Nombre:</strong> {{ r.nombre }}</div>{% endif %}
+                                {% if r.correo %}<div><strong>Correo:</strong> {{ r.correo }}</div>{% endif %}
+                                <div style="margin-top: 8px; color: #334155;"><strong>Detalle:</strong> {{ r.detalle }}</div>
                             </div>
-                            {% if r.nombre %}<div><strong>Nombre Reportante:</strong> {{ r.nombre }}</div>{% endif %}
-                            {% if r.correo %}<div><strong>Correo:</strong> {{ r.correo }}</div>{% endif %}
-                            <div style="margin-top: 8px; color: #334155;"><strong>Detalle enviado:</strong> {{ r.detalle }}</div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
                 {% endif %}
             {% endfor %}
@@ -291,6 +293,7 @@ HTML_GALLERY = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Vault</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; }
@@ -370,6 +373,7 @@ HTML_PLAYER = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reproduciendo: {{ video.Titulo }}</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --border: #e2e8f0; }
@@ -429,7 +433,7 @@ HTML_PLAYER = """
     </div>
 
     <div class="modal-overlay" id="modalOverlay">
-        <form class="modal-card" id="modalForm" onsubmit="event.preventDefault(); enviarReporte();">
+        <div class="modal-card" id="modalForm">
             <h3>¿Qué problema presenta este video?</h3>
             <div class="form-group">
                 <select id="repMotivo" onchange="checkReason()">
@@ -443,20 +447,20 @@ HTML_PLAYER = """
             </div>
             <div id="honeypotFields" style="display: none;">
                 <div class="form-group"><label>Nombre Legal / Titular</label><input type="text" id="repNombre" placeholder="Tu nombre completo"></div>
-                <div class="form-group"><label>Correo electrónico de contacto</label><input type="email" id="repCorreo" placeholder="usuario@dominio.com"></div>
+                <div class="form-group"><label>Correo electrónico corporativo</label><input type="email" id="repCorreo" placeholder="contacto@empresa.com"></div>
             </div>
             <div class="form-group">
                 <label id="lblDetalle">Detalles (Opcional)</label>
                 <textarea id="repDetalle" placeholder="Describe el problema..."></textarea>
             </div>
-            <button class="btn-submit" type="submit">Enviar Reporte</button>
-            <button class="btn-cancel" type="button" onclick="document.getElementById('modalOverlay').style.display='none'">Cancelar</button>
-        </form>
+            <button class="btn-submit" onclick="enviarReporte()">Enviar Reporte</button>
+            <button class="btn-cancel" onclick="document.getElementById('modalOverlay').style.display='none'">Cancelar</button>
+        </div>
         <div class="modal-card" id="modalSuccess" style="display: none; text-align: center;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
             <h3 style="border: none; color: #16a34a;">Reporte Recibido</h3>
             <p style="font-size: 0.9rem; color: #475569; margin-bottom: 1.5rem;">El número de seguimiento es #<span id="tkNum"></span>. Nuestro equipo legal actuará en 24 a 48 horas si se comprueba la infracción.</p>
-            <button class="btn-submit" type="button" onclick="document.getElementById('modalOverlay').style.display='none'">Cerrar</button>
+            <button class="btn-submit" onclick="document.getElementById('modalOverlay').style.display='none'">Cerrar</button>
         </div>
     </div>
 
@@ -467,8 +471,6 @@ HTML_PLAYER = """
             const val = document.getElementById('repMotivo').value;
             const isSerious = val !== 'El video no carga / Enlace roto';
             document.getElementById('honeypotFields').style.display = isSerious ? 'block' : 'none';
-            document.getElementById('repCorreo').required = isSerious;
-            document.getElementById('repNombre').required = isSerious;
             document.getElementById('lblDetalle').innerText = isSerious ? 'Detalles de la infracción' : 'Detalles (Opcional)';
         }
 
@@ -476,9 +478,21 @@ HTML_PLAYER = """
             const val = document.getElementById('repMotivo').value;
             const isSerious = val !== 'El video no carga / Enlace roto';
             
-            if (isSerious && !document.getElementById('repCorreo').value.includes('@')) {
-                alert('Por favor, introduce una dirección de correo electrónico válida.');
-                return;
+            if (isSerious) {
+                const nombreVal = document.getElementById('repNombre').value.trim();
+                const correoVal = document.getElementById('repCorreo').value.trim();
+                
+                if (!nombreVal) {
+                    alert('Por favor, ingresa tu nombre completo.');
+                    return;
+                }
+                
+                // Expresión regular estándar para comprobar correos estructurados válidos
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(correoVal)) {
+                    alert('Por favor, introduce una dirección de correo electrónico válida (usuario@dominio.com).');
+                    return;
+                }
             }
 
             const data = {
@@ -494,6 +508,7 @@ HTML_PLAYER = """
             document.getElementById('modalSuccess').style.display = 'block';
         }
 
+        // PING EN VIVO (Mantiene la sesión activa en la RAM)
         setInterval(() => {
             fetch(`/api/ping/${v_id}`, {method: 'POST'})
                 .then(r => r.json())
@@ -506,12 +521,6 @@ HTML_PLAYER = """
 </body>
 </html>
 """
-
-# Inyectar el Favicon limpiamente usando reemplazo de texto para evitar romper Jinja2
-HTML_LOGIN = HTML_LOGIN.replace("", FAVICON_LINK)
-HTML_ADMIN = HTML_ADMIN.replace("", FAVICON_LINK)
-HTML_GALLERY = HTML_GALLERY.replace("", FAVICON_LINK)
-HTML_PLAYER = HTML_PLAYER.replace("", FAVICON_LINK)
 
 # ==========================================
 # RUTAS DEL SERVIDOR WEB
@@ -561,13 +570,16 @@ def index():
 @app.route('/ver/<video_id>')
 def watch(video_id):
     try:
+        # 1. Registrar IP en la memoria RAM para "En Vivo"
         if video_id not in SYSTEM_STATS['en_vivo']:
             SYSTEM_STATS['en_vivo'][video_id] = {}
         user_ip = request.remote_addr or "unknown"
         SYSTEM_STATS['en_vivo'][video_id][user_ip] = time.time()
 
+        # 2. Sumar +1 a las vistas guardadas en Google Sheets
         requests.post(SHEET_URL, json={"action": "add_view", "id": video_id})
 
+        # 3. Traer los datos actualizados de Sheets para el reproductor
         resp = requests.get(SHEET_URL)
         data_json = resp.json()
         videos = data_json.get('data', [])
@@ -576,9 +588,9 @@ def watch(video_id):
         
         if video:
             return render_template_string(HTML_PLAYER, video=video, config=config, en_vivo=SYSTEM_STATS['en_vivo'])
-        return "Video no encontrado.", 404
+        return "<div style='padding:2rem; font-family:sans-serif;'>Video no encontrado en la bóveda.</div>", 404
     except:
-        return "Error al cargar reproductor."
+        return "<div style='padding:2rem; font-family:sans-serif;'>Error al cargar el reproductor.</div>"
 
 @app.route('/admin')
 @requires_auth
@@ -592,18 +604,21 @@ def admin_panel():
         videos.reverse() 
         return render_template_string(HTML_ADMIN, videos=videos, config=config, reportes=reportes, en_vivo=SYSTEM_STATS['en_vivo'])
     except:
-        return "Error cargando datos."
+        return "Error cargando datos administrativos."
 
 # ==========================================
-# RUTAS DE API
+# RUTAS DE API (Conexión Directa con Sheets)
 # ==========================================
 @app.route('/api/ping/<video_id>', methods=['POST'])
 def api_ping(video_id):
     if video_id not in SYSTEM_STATS['en_vivo']:
         SYSTEM_STATS['en_vivo'][video_id] = {}
+    
     user_ip = request.remote_addr or "unknown"
     now = time.time()
     SYSTEM_STATS['en_vivo'][video_id][user_ip] = now
+    
+    # Limpiar IPs inactivas (sin ping por 15 segundos)
     SYSTEM_STATS['en_vivo'][video_id] = {ip: t for ip, t in SYSTEM_STATS['en_vivo'][video_id].items() if now - t < 15}
     return jsonify({"en_vivo": len(SYSTEM_STATS['en_vivo'][video_id])})
 
@@ -663,7 +678,7 @@ def run_web_server():
 threading.Thread(target=run_web_server, daemon=True).start()
 
 # ==========================================
-# LÓGICA DEL BOT DE TELEGRAM 
+# LÓGICA DEL BOT DE TELEGRAM (CÓDIGO ORIGINAL INTACTO)
 # ==========================================
 def send_main_menu(chat_id, text="Panel de Control del Catálogo:"):
     markup = InlineKeyboardMarkup(row_width=1)
@@ -686,51 +701,146 @@ def process_mediafire_inputs(message):
         if not message.document.file_name.endswith('.txt'):
             bot.reply_to(message, "⚠️ El archivo de la bóveda debe ser formato .txt")
             return
-        msg_lectura = bot.reply_to(message, "⏳ *Extrayendo enlaces...*", parse_mode="Markdown")
+            
+        msg_lectura = bot.reply_to(message, "⏳ *Extrayendo enlaces del documento...*", parse_mode="Markdown")
         try:
             file_info = bot.get_file(message.document.file_id)
             downloaded_file = bot.download_file(file_info.file_path)
             texto_crudo = downloaded_file.decode('utf-8')
             bot.delete_message(chat_id, msg_lectura.message_id)
-        except Exception:
+        except Exception as e:
+            bot.edit_message_text("❌ Error al leer el documento de la bóveda.", chat_id=chat_id, message_id=msg_lectura.message_id)
             return
     else:
         texto_crudo = message.text
 
-    urls_encontradas = [p for p in texto_crudo.split() if 'mediafire.com' in p and p.startswith('http')]
+    urls_encontradas = [palabra for palabra in texto_crudo.split() if 'mediafire.com' in palabra and palabra.startswith('http')]
     urls_unicas = list(dict.fromkeys(urls_encontradas))
     total_urls = len(urls_unicas)
-    if total_urls == 0: return 
+    
+    if total_urls == 0:
+        if message.content_type == 'document':
+            bot.reply_to(message, "⚠️ No detecté enlaces válidos de Mediafire en este archivo.")
+        return 
 
-    msg_status = bot.reply_to(message, f"⏳ *Procesando {total_urls} enlace(s)...*", parse_mode="Markdown")
+    if total_urls == 1:
+        msg_status = bot.reply_to(message, "⏳ *Procesando enlace...*\nLimpiando título y extrayendo miniatura...", parse_mode="Markdown")
+    else:
+        msg_status = bot.reply_to(message, f"⏳ *CARGA MASIVA INICIADA*\n━━━━━━━━━━━━━━━━━━\n📁 Enlaces detectados: `{total_urls}`\n⚙️ Actualizando progreso cada 10 subidas...", parse_mode="Markdown")
+    
     exitos = 0
+    fallos = 0
+    enlaces_malos = []
+    msg_errores_id = None
+    clean_name = ""
     
     for i, url in enumerate(urls_unicas, 1):
+        hubo_error = False
+        
         try:
-            raw_name = url.split('/')[-2] if len(url.split('/')) > 2 else f"Video_{i}"
-            clean_name = re.sub(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]', ' ', urllib.parse.unquote(raw_name)).strip()
-            cmd = ['ffmpeg', '-ss', '35', '-i', url, '-vframes', '1', '-q:v', '5', '-vf', 'scale=480:-1', '-f', 'image2', '-c:v', 'mjpeg', 'pipe:1']
+            raw_name = url.split('/')[-2] if len(url.split('/')) > 2 else f"Video_Sin_Nombre_{i}"
+            decoded_name = urllib.parse.unquote(urllib.parse.unquote(raw_name))
+            decoded_name = decoded_name.replace('.mp4', '').replace('.mkv', '').replace('.avi', '')
+            clean_name = re.sub(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]', ' ', decoded_name)
+            clean_name = re.sub(r'\s+', ' ', clean_name).strip()
+            
+            if not clean_name:
+                clean_name = f"Video Guardado {i}"
+            
+            cmd = [
+                'ffmpeg', '-ss', '35', '-i', url, '-vframes', '1', 
+                '-q:v', '5', '-vf', 'scale=480:-1', 
+                '-f', 'image2', '-c:v', 'mjpeg', 'pipe:1'
+            ]
+            
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
             out, _ = process.communicate()
-            b64_string = "data:image/jpeg;base64," + base64.b64encode(out).decode('utf-8') if out else ""
-            requests.post(SHEET_URL, json={"id": str(int(time.time()) + i), "titulo": clean_name, "enlace": url, "portada": b64_string, "fecha": time.strftime("%d/%m/%Y")})
-            exitos += 1
-        except: pass
             
-    bot.edit_message_text(f"✅ *CARGA FINALIZADA*\nSubidos: `{exitos}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
+            b64_string = "data:image/jpeg;base64," + base64.b64encode(out).decode('utf-8') if out else ""
+                
+            video_id = str(int(time.time()) + i) 
+            payload = {
+                "id": video_id,
+                "titulo": clean_name,
+                "enlace": url,
+                "portada": b64_string,
+                "fecha": time.strftime("%d/%m/%Y")
+            }
+            
+            response = requests.post(SHEET_URL, json=payload)
+            
+            if response.status_code == 200:
+                exitos += 1
+            else:
+                hubo_error = True
+                
+        except Exception:
+            hubo_error = True
+            
+        if hubo_error:
+            fallos += 1
+            enlaces_malos.append(url)
+            
+            texto_errores = "⚠️ *ENLACES CON ERROR (Actualización en vivo):*\n━━━━━━━━━━━━━━━━━━\n"
+            texto_errores += "\n".join([f"`{link}`" for link in enlaces_malos])
+            
+            if not msg_errores_id:
+                try:
+                    err_msg = bot.reply_to(message, texto_errores, parse_mode="Markdown")
+                    msg_errores_id = err_msg.message_id
+                except:
+                    pass
+            else:
+                try:
+                    bot.edit_message_text(texto_errores, chat_id=chat_id, message_id=msg_errores_id, parse_mode="Markdown")
+                except:
+                    pass
+            
+        if total_urls > 1 and i % 10 == 0:
+            try:
+                bot.edit_message_text(f"⏳ *PROCESANDO LOTE...*\n━━━━━━━━━━━━━━━━━━\n📊 Avance: `{i}/{total_urls}`\n✅ Exitosos: `{exitos}`\n❌ Errores: `{fallos}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
+            except:
+                pass 
+
+    if total_urls == 1:
+        if exitos == 1:
+            bot.edit_message_text(f"✅ *Video Guardado Exitosamente*\n\n📄 *Título:* `{clean_name}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
+        else:
+            bot.edit_message_text("❌ Error al guardar en la base de datos. Verifica el enlace de error arriba.", chat_id=chat_id, message_id=msg_status.message_id)
+    else:
+        bot.edit_message_text(f"✅ *CARGA MASIVA FINALIZADA*\n━━━━━━━━━━━━━━━━━━\n📁 Total escaneados: `{total_urls}`\n✅ Subidos a la Bóveda: `{exitos}`\n❌ Errores detectados: `{fallos}`", chat_id=chat_id, message_id=msg_status.message_id, parse_mode="Markdown")
+    
+    send_main_menu(chat_id, "¿Qué deseas hacer ahora?")
 
 @bot.callback_query_handler(func=lambda call: call.data == "history")
 def show_history(call):
     chat_id = call.message.chat.id
+    bot.edit_message_text("⏳ Consultando la Bóveda...", chat_id=chat_id, message_id=call.message.message_id)
+    
     try:
         resp = requests.get(SHEET_URL)
         data = resp.json().get('data', [])
-        if not data: return
+        
+        if not data:
+            bot.edit_message_text("📭 La bóveda está vacía.", chat_id=chat_id, message_id=call.message.message_id)
+            send_main_menu(chat_id)
+            return
+            
         markup = InlineKeyboardMarkup(row_width=1)
         for video in reversed(data[-5:]):
-            markup.add(InlineKeyboardButton(f"▶️ {video['Titulo']}", url=f"{WEB_URL}/ver/{video['ID_Video']}"))
-        bot.edit_message_text("📋 *Últimos 5:*", chat_id=chat_id, message_id=call.message.message_id, parse_mode="Markdown", reply_markup=markup)
-    except: pass
+            url_reproductor = f"{WEB_URL}/ver/{video['ID_Video']}"
+            markup.add(InlineKeyboardButton(f"▶️ {video['Titulo']}", url=url_reproductor))
+            
+        markup.add(InlineKeyboardButton("🔙 Volver al Menú", callback_data="menu"))
+        bot.edit_message_text("📋 *Últimos 5 videos guardados:*", chat_id=chat_id, message_id=call.message.message_id, parse_mode="Markdown", reply_markup=markup)
+        
+    except Exception as e:
+        bot.edit_message_text("❌ Error al leer el catálogo.", chat_id=chat_id, message_id=call.message.message_id)
+
+@bot.callback_query_handler(func=lambda call: call.data == "menu")
+def return_menu(call):
+    bot.delete_message(call.message.chat.id, call.message.message_id)
+    send_main_menu(call.message.chat.id)
 
 print("🚀 Lumina Streaming Vault Iniciado...")
 bot.infinity_polling()
